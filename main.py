@@ -10,19 +10,38 @@ try:
 
         prezzo_budget = 0
         prezzo_consuntivo = 0
+        prezzo_mix_std = 0
+        prezzo_mix_eff = 0
         costo_budget = 0
         costo_consuntivo = 0
+        costo_mix_std = 0
+        costo_mix_eff = 0
         quantita_tot_budget = 0
         quantita_tot_consuntivo = 0
         
+        mix_articolo = 0
+
         prezzo_mix_std = 0
         costo_mix_std = 0
         prezzo_mix_eff = 0
         costo_mix_eff = 0
 
-        costo_tot_articolo = []
-        prezzo_tot_articolo = []
-        quantita_tot_articolo = []
+        costo_tot_articolo_budget = []
+        prezzo_tot_articolo_budget = []
+        quantita_tot_articolo_budget = []
+        
+        costo_tot_articolo_mix_std = []
+        prezzo_tot_articolo_mix_std = []
+        quantita_tot_articolo_mix_std = []
+
+        costo_tot_articolo_mix_eff = []
+        prezzo_tot_articolo_mix_eff = []
+        quantita_tot_articolo_mix_eff = []
+        quantita_tot_articolo_mix_std = []
+
+        costo_tot_articolo_consuntivo = []
+        prezzo_tot_articolo_consuntivo = []
+        quantita_tot_articolo_consuntivo = []
         
         list_articoli = []
         
@@ -51,9 +70,9 @@ try:
         cursor.execute(sql_select_Query)
         records = cursor.fetchall()
         for row in records:
-            costo_tot_articolo = row[1]+row[2]
+            costo_tot_articolo_budget = row[1]+row[2]
             print("codArt = ", row[0])
-            print("costo_tot_articolo = ", costo_tot_articolo)
+            print("costo_tot_articolo_budget = ", costo_tot_articolo_budget)
 
         # RICAVI UNITARIO PER ARTICOLO BUDGET  
         sql_select_Query = "SELECT vendite_budget_x_art.Codice_articolo, vendite_budget_x_art.Prezzo_unita FROM vendite_budget_x_art LIMIT 1"
@@ -61,29 +80,29 @@ try:
         cursor.execute(sql_select_Query)
         records = cursor.fetchall()
         for row in records:
-            prezzo_tot_articolo = row[1]
+            prezzo_tot_articolo_budget = row[1]
             print("codArt = ", row[0])
-            print("prezzo_tot_articolo = ", prezzo_tot_articolo)
+            print("prezzo_tot_articolo_budget = ", prezzo_tot_articolo_budget)
         
-        # # COSTO UNITARIO PER ARTICOLO CONSUNTIVO
-        # sql_select_Query = "SELECT costo_produzione_consuntivo_x_art.codArt, costo_produzione_consuntivo_x_art.C_unit as costo_unitario_produzione, costo_mp_budget_x_art.costo_unita as costo_unitario_mp from costo_produzione_consuntivo_x_art, costo_mp_budget_x_art where costo_produzione_consuntivo_x_art.codArt = costo_mp_budget_x_art.codArt GROUP by costo_produzione_consuntivo_x_art.codArt LIMIT 1"
-        # cursor = connection.cursor()
-        # cursor.execute(sql_select_Query)
-        # records = cursor.fetchall()
-        # for row in records:
-        #     costo_tot_articolo = row[1]+row[2]
-        #     print("codArt = ", row[0])
-        #     print("costo_tot_articolo = ", costo_tot_articolo)
+        # COSTO UNITARIO PER ARTICOLO CONSUNTIVO
+        sql_select_Query = "SELECT costo_produzione_consuntivo_x_art.codArt, costo_produzione_consuntivo_x_art.C_unit as costo_unitario_produzione, costo_mp_budget_x_art.costo_unita as costo_unitario_mp from costo_produzione_consuntivo_x_art, costo_mp_budget_x_art where costo_produzione_consuntivo_x_art.codArt = costo_mp_budget_x_art.codArt GROUP by costo_produzione_consuntivo_x_art.codArt LIMIT 1"
+        cursor = connection.cursor()
+        cursor.execute(sql_select_Query)
+        records = cursor.fetchall()
+        for row in records:
+            costo_tot_articolo_consuntivo = row[1]+row[2]
+            print("codArt = ", row[0])
+            print("costo_tot_articolo_consuntivo = ", costo_tot_articolo_consuntivo)
 
-        # # RICAVI UNITARIO PER ARTICOLO CONSUNTIVO  
-        # sql_select_Query = "SELECT vendite_consuntivo_x_art.Codice_articolo, vendite_consuntivo_x_art.Prezzo_unita FROM vendite_consuntivo_x_art LIMIT 1"
-        # cursor = connection.cursor()
-        # cursor.execute(sql_select_Query)
-        # records = cursor.fetchall()
-        # for row in records:
-        #     prezzo_tot_articolo = row[1]
-        #     print("codArt = ", row[0])
-        #     print("prezzo_tot_articolo = ", prezzo_tot_articolo)
+        # RICAVI UNITARIO PER ARTICOLO CONSUNTIVO  
+        sql_select_Query = "SELECT vendite_consuntivo_x_art.Codice_articolo, vendite_consuntivo_x_art.Prezzo_unita FROM vendite_consuntivo_x_art LIMIT 1"
+        cursor = connection.cursor()
+        cursor.execute(sql_select_Query)
+        records = cursor.fetchall()
+        for row in records:
+            prezzo_tot_articolo_consuntivo = row[1]
+            print("codArt = ", row[0])
+            print("prezzo_tot_articolo_consuntivo = ", prezzo_tot_articolo_consuntivo)
         
         # QUANTITA PER ARTICOLO BUDGET
         sql_select_Query = "SELECT costo_produzione_budget_x_art.codArt, costo_produzione_budget_x_art.qta from costo_produzione_budget_x_art LIMIT 1"
@@ -91,12 +110,22 @@ try:
         cursor.execute(sql_select_Query)
         records = cursor.fetchall()
         for row in records:
-            quantita_tot_articolo = row[1]
+            quantita_tot_articolo_budget = row[1]
             print("codArt = ", row[0])
-            print("quantita_tot_articolo = ", quantita_tot_articolo)
+            print("quantita_tot_articolo_budget = ", quantita_tot_articolo_budget)
+        
+        # QUANTITA PER ARTICOLO CONSUNTIVO
+        sql_select_Query = "SELECT costo_produzione_consuntivo_x_art.codArt, costo_produzione_consuntivo_x_art.qta from costo_produzione_consuntivo_x_art LIMIT 1"
+        cursor = connection.cursor()
+        cursor.execute(sql_select_Query)
+        records = cursor.fetchall()
+        for row in records:
+            quantita_tot_articolo_consuntivo = row[1]
+            print("codArt = ", row[0])
+            print("quantita_tot_articolo_consuntivo = ", quantita_tot_articolo_consuntivo)
 
         # QUANTITA BUDGET
-        sql_select_Query = "SELECT sum(costo_produzione_consuntivo_x_art.qta) from costo_produzione_consuntivo_x_art"
+        sql_select_Query = "SELECT sum(costo_produzione_consuntivo_x_art.qta) from costo_produzione_consuntivo_x_art" 
         cursor = connection.cursor()
         cursor.execute(sql_select_Query)
         records = cursor.fetchall()
@@ -104,7 +133,35 @@ try:
             quantita_tot_budget = row[0]
             print("quantita_tot_budget = ", quantita_tot_budget)
 
+        # MIX PER ARTICOLO BUDGET
+        sql_select_Query = "SELECT mix_x_art_budget.codArt, mix_x_art_budget.val from mix_x_art_budget LIMIT 1"
+        cursor = connection.cursor()
+        cursor.execute(sql_select_Query)
+        records = cursor.fetchall()
+        for row in records:
+            mix_articolo = row[1]
+            print("mix_articolo = ", mix_articolo)
 
+        # QUANTITA CONSUNTIVO
+        sql_select_Query = "SELECT sum(vendite_consuntivo.Quantita) from vendite_consuntivo"
+        cursor = connection.cursor()
+        cursor.execute(sql_select_Query)
+        records = cursor.fetchall()
+        for row in records:
+            quantita_tot_consuntivo = row[0]
+            print("quantita_tot_consuntivo = ", quantita_tot_consuntivo)
+
+        quantita_tot_articolo_mix_std = quantita_tot_consuntivo * mix_articolo
+        print("quantita_tot_articolo_mix_std = ", quantita_tot_articolo_mix_std)
+
+        # CALCOLO IL MARGINE DI CONTRIBUZIONE
+        mdc_budget = prezzo_tot_articolo_budget - costo_tot_articolo_budget
+        
+        # prezzo_mix_std = quantita_tot_articolo_mix_std * prezzo_tot_articolo_budget
+        # costo_mix_std = quantita_tot_articolo_mix_std * costo_tot_articolo_budget
+
+
+        
         # # COSTO TOTALE DI TUTTE LE VENDITE
         # sql_select_Query = "SELECT sum(vendite_budget.Quantita * totale_costo) as costo_totale from vendite_budget INNER join (select codArt, sum(costoProd) as totale_costo from costo_produzione_budget_x_art group by codArt) as test on vendite_budget.codArt = test.codArt"
         # cursor = connection.cursor()
