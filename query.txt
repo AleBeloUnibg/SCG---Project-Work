@@ -1,0 +1,63 @@
+# associare ad ogni cliente il relativo tasso di cambio
+CREATE VIEW Cliente_Tax (Codice_cliente, Codice_pagamento, Valuta, Tasso_cambio, Budget_consuntivo) AS
+SELECT Codice_cliente, Cod_condizioni_pagamento, clienti.Codice_Valuta, Tasso_cambio_medio, Budget_consuntivo
+FROM clienti, tassi_di_cambio
+WHERE clienti.Codice_Valuta = tassi_di_cambio.Codice_Valuta
+
+# associare ogni cliente alla sua vendita
+CREATE VIEW Cliente_Adj (Codice_cliente, Codice_pagamento, Valuta, Tasso_cambio, Budget_consuntivo, Nr_articolo, Quantita, Importo_tot) AS
+SELECT Codice_cliente, Codice_pagamento, Valuta, Tasso_cambio, Budget_consuntivo, Nr_articolo, Quantita, Importo_vendita
+FROM vendita, Cliente_Tax
+WHERE Nr_origine = Codice_cliente AND  Budget_consuntivo = bud_cons
+
+# estrazione/separazione in tabella VenditeBudget.csv e VenditeConsuntivo.csv
+CREATE VIEW Vendite_Budget(Codice_cliente, Codice_pagamento, Valuta, Tasso_cambio, Codice_articolo, Quantita, Importo_tot) AS
+SELECT Codice_cliente, Codice_pagamento, Valuta, Tasso_cambio, Nr_articolo, Quantita, Importo_tot
+FROM Cliente_Adj
+WHERE Budget_consuntivo = 0
+
+CREATE VIEW Vendite_Consuntivo(Codice_cliente, Codice_pagamento, Valuta, Tasso_cambio, Codice_articolo, Quantita, Importo_tot) AS
+SELECT Codice_cliente, Codice_pagamento, Valuta, Tasso_cambio, Nr_articolo, Quantita, Importo_tot
+FROM Cliente_Adj
+WHERE Budget_consuntivo = 1
+
+# unire/sommare per articolo (sia in VenditeBudget.csv che in VenditeConsuntivo.csv)
+CREATE VIEW Vendite_Budget_X_art(Codice_articolo, Prezzo_unita) AS
+SELECT Codice_articolo, (sum(Importo_tot)/sum(Quantita))*Tasso_cambio AS Prezzo_unita
+FROM Vendite_Budget
+GROUP BY Codice_articolo
+
+CREATE VIEW Vendite_Consuntivo_X_art(Codice_articolo, Prezzo_unita) AS
+SELECT Codice_articolo, (sum(Importo_tot)/sum(Quantita))*Tasso_cambio AS Prezzo_unita	
+FROM Vendite_Consuntivo
+GROUP BY Codice_articolo
+
+---------------------------------------------------------------------------------------------------------------------
+
+# creare una tabella ImpiegoCostoRisorseBudget.csv (Impiego orario risorse.csv join(Risorsa) Costo orario risorse - budget.csv) e ImpiegoCostoRisorseConsuntivo.csv (Impiego orario risorse.csv join(Risorsa) Costo orario risorse - consuntivo.csv)
+CREATE VIEW Impiego_Costo_Risorse_Budget(Codice_articolo, Codice_ordine, Area, Codice_area, risorsa, Tempo, Quantita, Costo_orario) AS
+SELECT Nr_articolo, Nr_ordine_produzione, Descrizione, I.Nr_Area_produzione, I.Risorsa, Tempo_risorsa, Quantita_output, Costo_orario
+FROM impiego_orario_risorse AS I, costo_orario_risorse_budget AS C
+WHERE I.Risorsa = C.Risorsa AND I.Nr_Area_produzione = C.Area_produzione AND Budget_consuntivo = 0
+
+CREATE VIEW Impiego_Costo_Risorse_Consuntivo(Codice_articolo, Codice_ordine, Area, Codice_area, risorsa, Tempo, Quantita, Costo_orario) AS
+SELECT Nr_articolo, Nr_ordine_produzione, Descrizione, I.Nr_Area_produzione, I.Risorsa, Tempo_risorsa, Quantita_output, Costo_orario
+FROM impiego_orario_risorse AS I, costo_orario_risorse_budget AS C
+WHERE I.Risorsa = C.Risorsa AND I.Nr_Area_produzione = C.Area_produzione AND Budget_consuntivo = 1
+
+# calcolare ((Costo_orarioris * tempo risorsa)/Quantita di output) per ogni articolo e per ogni Area produttiva delle due tabelle
+CREATE VIEW Costo_Budget_X_art(Codice_articolo, Costo_produzione, Area) AS
+SELECT Codice_articolo, sum(Costo_produzione) AS Costo_produzione, Area
+FROM(	SELECT Codice_articolo, (Costo_orario * t) / q AS Costo_produzione
+		FROM Impiego_Costo_Risorse_Budget 
+		WHERE q != 0) AS a
+GROUP BY a.Codice_articolo, a.Area
+
+CREATE VIEW Costo_Consuntivo_X_art(Codice_articolo, Costo_produzione, Area) AS
+SELECT Codice_articolo, sum(Costo_produzione) AS Costo_produzione, Area
+FROM(	SELECT Codice_articolo, (Costo_orario * t) / q AS Costo_produzione, Area
+		FROM Impiego_Costo_Risorse_Consuntivo 
+		WHERE q != 0) AS a
+GROUP BY a.Codice_articolo, a.Area
+
+# creare una tabella (template) ScostamentiCosto.csv e ScostamentiMcd.csv in cui sulle righe ho gli articoli e sulle colonne le aree produttive
