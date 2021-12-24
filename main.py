@@ -111,13 +111,11 @@ finally:
         connection.close()
         print("MySQL connection is closed")
 
-
-def get_tot_budget(connection):
+def get_costo_x_art(connection, list_articoli):
     costo_budget = 0
     
     if connection.is_connected():
-        list_articoli = []
-        sql_select_Query = "SELECT costo_produzione_budget_x_art.codArt, costo_produzione_budget_x_art.C_unit as costo_unitario_produzione, costo_mp_budget_x_art.costo_unita as costo_unitario_mp from costo_produzione_budget_x_art, costo_mp_budget_x_art where costo_produzione_budget_x_art.codArt = costo_mp_budget_x_art.codArt GROUP by costo_produzione_budget_x_art.codArt LIMIT 1"
+        sql_select_Query = "SELECT costo_produzione_budget_x_art.codArt, (costo_produzione_budget_x_art.C_unit + costo_mp_budget_x_art.costo_unita) as costo_unitario from costo_produzione_budget_x_art, costo_mp_budget_x_art where costo_produzione_budget_x_art.codArt = costo_mp_budget_x_art.codArt"
         cursor = connection.cursor()
         cursor.execute(sql_select_Query)
         records = cursor.fetchall()
@@ -126,9 +124,32 @@ def get_tot_budget(connection):
             costo_tot_articolo_budget = row[1]
             art.setCosto(costo_tot_articolo_budget, 0)
             list_articoli.append(art)
-            
-        for x in list_articoli:
-            costo_budget += x.getCosto(0)
+
+def get_costo_tot_budget(connection):
+    costo_budget = 0
+              
+    for x in list_articoli:
+        costo_budget += x.getCosto(0)
     
     return costo_budget
+
+def get_prezzo_tot_budget(connection):
+    prezzo_budget = 0
+    
+    if connection.is_connected():
+        list_articoli = []
+        sql_select_Query = "SELECT vendite_budget_x_art.Codice_articolo, vendite_budget_x_art.Prezzo_unita FROM vendite_budget_x_art"
+        cursor = connection.cursor()
+        cursor.execute(sql_select_Query)
+        records = cursor.fetchall()
+        for row in records:
+            art = Articolo(row[0])
+            prezzo_tot_articolo_budget = row[1]
+            art.setPrezzo(prezzo_tot_articolo_budget, 3)
+            list_articoli.append(art)
+            
+        for x in list_articoli:
+            prezzo_budget += x.getPrezzo(3)
+    
+    return prezzo_budget
 

@@ -2,6 +2,7 @@ from flask import Flask, render_template, request, session, redirect, url_for, s
 import mysql.connector
 from mysql.connector import Error
 from model_utils.articolo import Articolo
+from main import get_costo_tot_budget, get_prezzo_tot_budget, get_costo_x_art
 import os
 
 # Initialize the Flask application
@@ -21,10 +22,16 @@ try:
 except Error as e:
     print("Error while connecting to MySQL", e)
 
+list_articoli = []
+
+get_costo_x_art(connection, list_articoli)
+
+list_articoli[0].getPrezzo()
+
 # @app.route specify the exposed URL, in this case it is "http://my_site.com/"
 @app.route('/')
 def dashboard():
-    costo_tot_budget = get_tot_budget(connection)
+    costo_tot_budget = get_costo_tot_budget(connection)
 
     # Simply render the template in templates/login/login.html
     return render_template("index.html", costo_budget = costo_tot_budget)   # link al nome del template generato (si assume di essere già nella cartella template
@@ -32,8 +39,11 @@ def dashboard():
 # @app.route specify the exposed URL, in this case it is "http://my_site.com/"
 @app.route('/Centro_ricavo')
 def analisiCentroRicavo():
+    costo_tot_budget = get_costo_tot_budget(connection)
+    prezzo_tot_budget = get_prezzo_tot_budget(connection)
+    
     # Simply render the template in templates/login/login.html
-    return render_template("Centro_ricavo.html")   # link al nome del template generato (si assume di essere già nella cartella template
+    return render_template("Centro_ricavo.html", p_budget = prezzo_tot_budget, c_budget = costo_tot_budget)   # link al nome del template generato (si assume di essere già nella cartella template
 
 # @app.route specify the exposed URL, in this case it is "http://my_site.com/"
 @app.route('/budget_produzione')
@@ -64,6 +74,6 @@ def analisiMixStandard_produzione():
 # The app is served only if this file is run
 if __name__ == '__main__':
     # Start the app on "localhost:5000"
-    from main import get_tot_budget
+    from main import get_costo_tot_budget, get_prezzo_tot_budget, get_costo_x_art
     # The debug variable is used to automatically restart the server when code changes
     app.run(debug=True)
