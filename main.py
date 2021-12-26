@@ -1,155 +1,135 @@
 import mysql.connector
 from mysql.connector import Error
 from model_utils.articolo import Articolo
+from decimal import Decimal
 
-try:
-    connection = mysql.connector.connect(host='localhost',
-                                         database='sistemi_controllo_gestione',
-                                         user='root',
-                                         password='')
+def query(connection, sql_select_Query):
     if connection.is_connected():
-
-        list_articoli = []
-
-        quantita_budget = 0
-        costo_budget = 0
-        prezzo_budget = 0
-
-        quantita_consuntivo = 0
-        costo_consuntivo = 0
-        prezzo_consuntivo = 0
-
-        quantita_mix_std = 0
-        costo_mix_std = 0
-        prezzo_mix_std = 0
-
-        quantita_mix_eff = 0
-        costo_mix_eff = 0
-        prezzo_mix_eff = 0
-               
-        # def amongUs(codArt):
-        #     for art in list_articoli:
-        #         if art.codArt == codArt:
-        #             return self.art
-
-        # # 0C    COSTO UNITARIO PER ARTICOLO BUDGET
-        # sql_select_Query = "SELECT costo_produzione_budget_x_art.codArt, costo_produzione_budget_x_art.C_unit as costo_unitario_produzione, costo_mp_budget_x_art.costo_unita as costo_unitario_mp from costo_produzione_budget_x_art, costo_mp_budget_x_art where costo_produzione_budget_x_art.codArt = costo_mp_budget_x_art.codArt GROUP by costo_produzione_budget_x_art.codArt LIMIT 1"
-        # cursor = connection.cursor()
-        # cursor.execute(sql_select_Query)
-        # records = cursor.fetchall()
-        # for row in records:
-        #     art = Articolo(row[0])
-        #     costo_tot_articolo_budget = row[1]
-        #     art.setCosto(costo_tot_articolo_budget, 0)
-        #     list_articoli.append(art)
-        
-        # # 0P    RICAVI UNITARIO PER ARTICOLO BUDGET  
-        # sql_select_Query = "SELECT vendite_budget_x_art.Codice_articolo, vendite_budget_x_art.Prezzo_unita FROM vendite_budget_x_art LIMIT 1"
-        # cursor = connection.cursor()
-        # cursor.execute(sql_select_Query)
-        # records = cursor.fetchall()
-        # for row in records:
-        #     prezzo_tot_articolo_budget = row[1]
-        #     x = amongUs(row[0])
-        #     x.setPrezzo(prezzo_tot_articolo_budget, 0)
-
-        # # 0Q    QUANTITA PER ARTICOLO BUDGET
-        # sql_select_Query = "SELECT costo_produzione_budget_x_art.codArt, costo_produzione_budget_x_art.qta from costo_produzione_budget_x_art LIMIT 1"
-        # cursor = connection.cursor()
-        # cursor.execute(sql_select_Query)
-        # records = cursor.fetchall()
-        # for row in records:
-        #     quantita_articolo_budget = row[1]
-        #     x = amongUs(row[0])
-        #     x.setQuantita(quantita_articolo_budget, 0)
-
-        # # 3C    COSTO UNITARIO PER ARTICOLO CONSUNTIVO
-        # sql_select_Query = "SELECT costo_produzione_consuntivo_x_art.codArt, costo_produzione_consuntivo_x_art.C_unit as costo_unitario_produzione, costo_mp_budget_x_art.costo_unita as costo_unitario_mp from costo_produzione_consuntivo_x_art, costo_mp_budget_x_art where costo_produzione_consuntivo_x_art.codArt = costo_mp_budget_x_art.codArt GROUP by costo_produzione_consuntivo_x_art.codArt LIMIT 1"
-        # cursor = connection.cursor()
-        # cursor.execute(sql_select_Query)
-        # records = cursor.fetchall()
-        # for row in records:
-        #     costo_tot_articolo_consuntivo = row[1] #+row[2]
-        #     x = amongUs(row[0])
-        #     x.setCosto(costo_tot_articolo_consuntivo, 1)
-
-        # # 3P    RICAVI UNITARIO PER ARTICOLO CONSUNTIVO  
-        # sql_select_Query = "SELECT vendite_consuntivo_x_art.Codice_articolo, vendite_consuntivo_x_art.Prezzo_unita FROM vendite_consuntivo_x_art LIMIT 1"
-        # cursor = connection.cursor()
-        # cursor.execute(sql_select_Query)
-        # records = cursor.fetchall()
-        # for row in records:
-        #     prezzo_tot_articolo_consuntivo = row[1]
-        #     x = amongUs(row[0])
-        #     x.setPrezzo(prezzo_tot_articolo_consuntivo, 1)
-        
-        # # 3Q    QUANTITA PER ARTICOLO CONSUNTIVO
-        # sql_select_Query = "SELECT costo_produzione_consuntivo_x_art.codArt, costo_produzione_consuntivo_x_art.qta from costo_produzione_consuntivo_x_art LIMIT 1"
-        # cursor = connection.cursor()
-        # cursor.execute(sql_select_Query)
-        # records = cursor.fetchall()
-        # for row in records:
-        #     quantita_articolo_consuntivo = row[1]
-        #     x = amongUs(row[0])
-        #     x.setQuantita(quantita_articolo_consuntivo, 1)
-
-        # # PREZZO   TOT BUDGET - CONSUNTIVO
-        # # COSTO    TOT BUDGET - CONSUNTIVO
-        # # QUANTITA TOT BUDGET - CONSUNTIVO
-        # for x in list_articoli:
-        #     prezzo_budget += x.getPrezzo(0)
-        #     prezzo_consuntivo += x.getPrezzo(3)
-        #     costo_budget += x.getPrezzo(0)
-        #     costo_consuntivo += x.getPrezzo(3)
-        #     quantita_budget += x.quantitaBudget
-        #     quantita_consuntivo += x.quantitaConsuntivo
-
-except Error as e:
-    print("Error while connecting to MySQL", e)
-finally:
-    if connection.is_connected():
-        connection.close()
-        print("MySQL connection is closed")
-
-def get_costo_x_art(connection, list_articoli):
-    costo_budget = 0
-    
-    if connection.is_connected():
-        sql_select_Query = "SELECT costo_produzione_budget_x_art.codArt, (costo_produzione_budget_x_art.C_unit + costo_mp_budget_x_art.costo_unita) as costo_unitario from costo_produzione_budget_x_art, costo_mp_budget_x_art where costo_produzione_budget_x_art.codArt = costo_mp_budget_x_art.codArt"
         cursor = connection.cursor()
         cursor.execute(sql_select_Query)
         records = cursor.fetchall()
-        for row in records:
-            art = Articolo(row[0])
-            costo_tot_articolo_budget = row[1]
-            art.setCosto(costo_tot_articolo_budget, 0)
-            list_articoli.append(art)
+    return records
 
-def get_costo_tot_budget(connection):
+def amongUs(list_articoli, codArt):
+    for art in list_articoli:
+        if art.codArt == codArt:
+            return art
+    art = Articolo(codArt)
+    list_articoli.append(art)
+    return art
+
+def get_costo_x_art_budget(connection, list_articoli):
+        
+    sql_select_Query = "SELECT costo_produzione_budget_x_art.codArt, (costo_produzione_budget_x_art.C_unit + costo_mp_budget_x_art.costo_unita) as costo_unitario from costo_produzione_budget_x_art, costo_mp_budget_x_art where costo_produzione_budget_x_art.codArt = costo_mp_budget_x_art.codArt "
+    records = query(connection, sql_select_Query)
+    
+    for row in records:
+        costo_tot_articolo_budget = row[1]
+        art = amongUs(list_articoli, row[0])
+        art.setCosto(costo_tot_articolo_budget, "BUDGET")
+
+def get_costo_x_art_consuntivo(connection, list_articoli):
+
+    sql_select_Query = "SELECT costo_produzione_consuntivo_x_art.codArt, (costo_produzione_consuntivo_x_art.C_unit + costo_mp_consuntivo_x_art.costo_unita) as costo_unitario from costo_produzione_consuntivo_x_art, costo_mp_consuntivo_x_art where costo_produzione_consuntivo_x_art.codArt = costo_mp_consuntivo_x_art.codArt "
+    records = query(connection, sql_select_Query)
+    
+    for row in records:
+        costo_tot_articolo_consuntivo = row[1]
+        art = amongUs(list_articoli, row[0])
+        art.setCosto(costo_tot_articolo_consuntivo, "CONSUNTIVO")
+
+def get_prezzo_x_art_budget(connection, list_articoli):
+
+    sql_select_Query = "SELECT vendite_budget_x_art.codArt, vendite_budget_x_art.P_unit as P_unit from vendite_budget_x_art"
+    records = query(connection, sql_select_Query)
+    
+    for row in records:
+        prezzo_tot_articolo_budget = row[1]
+        art = amongUs(list_articoli, row[0])
+        art.setPrezzo(prezzo_tot_articolo_budget, "BUDGET")
+
+def get_prezzo_x_art_consuntivo(connection, list_articoli):
+
+    sql_select_Query = "SELECT vendite_consuntivo_x_art.CodArt, vendite_consuntivo_x_art.P_unit as P_unit from vendite_consuntivo_x_art "
+    records = query(connection, sql_select_Query)
+
+    for row in records:
+        prezzo_tot_articolo_consuntivo = row[1]
+        art = amongUs(list_articoli, row[0])
+        art.setPrezzo(prezzo_tot_articolo_consuntivo, "CONSUNTIVO")
+
+def get_quantita_vendute_x_art_budget(connection, list_articoli):
+    
+    sql_select_Query = "SELECT vendite_budget_x_art.codArt, vendite_budget_x_art.qta as P_unit from vendite_budget_x_art "
+    records = query(connection, sql_select_Query)
+
+    for row in records:
+        quantita_tot_articolo_budget = row[1]
+        art = amongUs(list_articoli, row[0])
+        art.setQuantitaVenduta(quantita_tot_articolo_budget, "BUDGET")
+
+
+def get_quantita_vendute_x_art_consuntivo(connection, list_articoli):
+    
+    sql_select_Query = "SELECT vendite_consuntivo_x_art.codArt, vendite_consuntivo_x_art.qta as P_unit from vendite_consuntivo_x_art "
+    records = query(connection, sql_select_Query)
+
+    for row in records:
+        quantita_tot_articolo_consuntivo = row[1]
+        art = amongUs(list_articoli, row[0])
+        art.setQuantitaVenduta(quantita_tot_articolo_consuntivo, "CONSUNTIVO")
+
+def get_quantita_prodotte_x_art_budget(connection, list_articoli):
+    
+    sql_select_Query = "SELECT costo_produzione_budget_x_art.codArt, costo_produzione_budget_x_art.qta as P_unit from costo_produzione_budget_x_art "
+    records = query(connection, sql_select_Query)
+
+    for row in records:
+        quantita_tot_articolo_budget = row[1]
+        art = amongUs(list_articoli, row[0])
+        art.setQuantitaProdotta(quantita_tot_articolo_budget, "BUDGET")
+
+
+def get_quantita_prodotte_x_art_consuntivo(connection, list_articoli):
+    
+    sql_select_Query = "SELECT costo_produzione_consuntivo_x_art.codArt, costo_produzione_consuntivo_x_art.qta as P_unit from costo_produzione_consuntivo_x_art "
+    records = query(connection, sql_select_Query)
+
+    for row in records:
+        quantita_tot_articolo_consuntivo = row[1]
+        art = amongUs(list_articoli, row[0])
+        art.setQuantitaProdotta(quantita_tot_articolo_consuntivo, "CONSUNTIVO")
+
+def get_costo_tot_budget(list_articoli):
     costo_budget = 0
               
     for x in list_articoli:
-        costo_budget += x.getCosto(0)
+        if x.getQuantitaProdotta("BUDGET") != 0:
+            costo_budget += (Decimal(x.getCosto("BUDGET")) / x.getQuantitaProdotta("BUDGET") * x.getQuantitaVenduta("BUDGET"))
     
     return costo_budget
 
-def get_prezzo_tot_budget(connection):
+def get_prezzo_tot_budget(list_articoli):
     prezzo_budget = 0
-    
-    if connection.is_connected():
-        list_articoli = []
-        sql_select_Query = "SELECT vendite_budget_x_art.Codice_articolo, vendite_budget_x_art.Prezzo_unita FROM vendite_budget_x_art"
-        cursor = connection.cursor()
-        cursor.execute(sql_select_Query)
-        records = cursor.fetchall()
-        for row in records:
-            art = Articolo(row[0])
-            prezzo_tot_articolo_budget = row[1]
-            art.setPrezzo(prezzo_tot_articolo_budget, 3)
-            list_articoli.append(art)
-            
-        for x in list_articoli:
-            prezzo_budget += x.getPrezzo(3)
+              
+    for x in list_articoli:
+        prezzo_budget += Decimal(x.getPrezzo("BUDGET")) * x.getQuantitaVenduta("BUDGET")
     
     return prezzo_budget
 
+def get_costo_tot_consuntivo(list_articoli):
+    costo_consuntivo = 0
+              
+    for x in list_articoli:
+        if x.getQuantitaProdotta("CONSUNTIVO") != 0:
+            costo_consuntivo += (Decimal(x.getCosto("CONSUNTIVO")) / x.getQuantitaProdotta("CONSUNTIVO") * x.getQuantitaVenduta("CONSUNTIVO"))
+    
+    return costo_consuntivo
+
+def get_prezzo_tot_consuntivo(list_articoli):
+    prezzo_consuntivo = 0
+              
+    for x in list_articoli:
+        prezzo_consuntivo += Decimal(x.getPrezzo("CONSUNTIVO")) * x.getQuantitaVenduta("CONSUNTIVO")
+    
+    return prezzo_consuntivo
