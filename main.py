@@ -104,8 +104,8 @@ def get_costo_tot_budget(list_articoli):
     costo_budget = 0
               
     for x in list_articoli:
-        if x.getQuantitaProdotta("BUDGET") != 0:
-            costo_budget += (Decimal(x.getCosto("BUDGET")) / x.getQuantitaProdotta("BUDGET") * x.getQuantitaVenduta("BUDGET"))
+        if(x.getQuantitaProdotta("BUDGET") != 0):
+            costo_budget += x.getQuantitaProdotta("BUDGET") 
     
     return costo_budget
 
