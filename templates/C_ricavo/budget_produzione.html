@@ -241,30 +241,16 @@
                                                             <td>Search</td>
                                                             <td>Search</td>
                                                           </tr>
-                                                          <tr>
-                                                            <td><i class="ti-close"></i></td>
-                                                            <th scope="row">1</th>
-                                                            <td>Mark</td>
-                                                            <td>Otto</td>
-                                                            <td>@mdo</td>
-                                                            <td>Otto</td>
-                                                          </tr>
-                                                          <tr>
-                                                            <td><i class="ti-close"></i></td>
-                                                            <th scope="row">2</th>
-                                                            <td>Jacob</td>
-                                                            <td>Thornton</td>
-                                                            <td>@fat</td>
-                                                            <td>Otto</td>
-                                                          </tr>
-                                                          <tr>
-                                                            <td><i class="ti-close"></i></td>
-                                                            <th scope="row">3</th>
-                                                            <td>Larry</td>
-                                                            <td>the Bird</td>
-                                                            <td>@twitter</td>
-                                                            <td>Otto</td>
-                                                          </tr>
+                                                            {% for art in list %}
+                                                                <tr>
+                                                                    <td><i class="ti-close"></i></td>
+                                                                    <td>{{ art.getCodice() }}</td>
+                                                                    <td>{{ art.getQuantitaVenduta("BUDGET") }}</td>
+                                                                    <td>{{ art.getMix("STANDARD") }}</td>
+                                                                    <td>{{ art.getPrezzo("BUDGET") }}</td>
+                                                                    <td>{{ art.getCosto("BUDGET") }}</td>
+                                                                </tr>
+                                                            {% endfor %}
                                                         </tbody>
                                                       </table>
                                                 </div>

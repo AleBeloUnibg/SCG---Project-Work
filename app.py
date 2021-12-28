@@ -6,6 +6,10 @@ from main import get_costo_tot_budget
 from main import get_prezzo_tot_budget
 from main import get_costo_tot_consuntivo
 from main import get_prezzo_tot_consuntivo
+from main import get_costo_tot_std
+from main import get_prezzo_tot_std
+from main import get_costo_tot_eff
+from main import get_prezzo_tot_eff
 
 from main import get_costo_x_art_budget
 from main import get_costo_x_art_consuntivo
@@ -15,6 +19,13 @@ from main import get_quantita_prodotte_x_art_budget
 from main import get_quantita_prodotte_x_art_consuntivo
 from main import get_quantita_vendute_x_art_budget
 from main import get_quantita_vendute_x_art_consuntivo
+from main import get_mix_std
+from main import set_quantita_prodotte_x_art_std
+from main import set_quantita_vendute_x_art_std
+from main import get_mix_eff
+from main import set_quantita_prodotte_x_art_eff
+from main import set_quantita_vendute_x_art_eff
+
 import os
 
 # Initialize the Flask application
@@ -37,45 +48,67 @@ except Error as e:
 list_articoli = []
 
 get_costo_x_art_budget(connection, list_articoli)
-get_costo_x_art_consuntivo(connection, list_articoli)
 get_prezzo_x_art_budget(connection, list_articoli)
-get_prezzo_x_art_consuntivo(connection, list_articoli)
 get_quantita_prodotte_x_art_budget(connection, list_articoli)
-get_quantita_prodotte_x_art_consuntivo(connection, list_articoli)
 get_quantita_vendute_x_art_budget(connection, list_articoli)
+
+get_costo_x_art_consuntivo(connection, list_articoli)
+get_prezzo_x_art_consuntivo(connection, list_articoli)
+get_quantita_prodotte_x_art_consuntivo(connection, list_articoli)
 get_quantita_vendute_x_art_consuntivo(connection, list_articoli)
+
+get_mix_std(connection, list_articoli)
+set_quantita_prodotte_x_art_std(list_articoli)
+set_quantita_vendute_x_art_std(list_articoli)
+
+get_mix_eff(connection, list_articoli)
+set_quantita_prodotte_x_art_eff(list_articoli)
+set_quantita_vendute_x_art_eff(list_articoli)
+
 
 # @app.route specify the exposed URL, in this case it is "http://my_site.com/"
 @app.route('/')
 def dashboard():
     costo_tot_budget = get_costo_tot_budget(list_articoli)
+    prezzo_tot_budget = get_prezzo_tot_budget(connection)
+
+    costo_tot_consuntivo = get_costo_tot_consuntivo(list_articoli)
+    prezzo_tot_consuntivo = get_prezzo_tot_consuntivo(connection)
 
     # Simply render the template in templates/login/login.html
-    return render_template("index.html", costo_budget = costo_tot_budget)   # link al nome del template generato (si assume di essere già nella cartella template
+    return render_template("index.html", mol_budget = prezzo_tot_budget - costo_tot_budget, mol_consuntivo = prezzo_tot_consuntivo - costo_tot_consuntivo)   # link al nome del template generato (si assume di essere già nella cartella template
 
 # @app.route specify the exposed URL, in this case it is "http://my_site.com/"
 @app.route('/Centro_ricavo')
 def analisiCentroRicavo():
     costo_tot_budget = get_costo_tot_budget(list_articoli)
-    prezzo_tot_budget = get_prezzo_tot_budget(list_articoli)
+    prezzo_tot_budget = get_prezzo_tot_budget(connection)
+
+    prezzo_tot_std = get_prezzo_tot_std(list_articoli)
+    costo_tot_std = get_costo_tot_std(list_articoli)
+
+    prezzo_tot_eff = get_prezzo_tot_eff(list_articoli)
+    costo_tot_eff = get_costo_tot_eff(list_articoli)
 
     costo_tot_consuntivo = get_costo_tot_consuntivo(list_articoli)
-    prezzo_tot_consuntivo = get_prezzo_tot_consuntivo(list_articoli)
+    prezzo_tot_consuntivo = get_prezzo_tot_consuntivo(connection)
     
     # Simply render the template in templates/login/login.html
-    return render_template("Centro_ricavo.html", p_budget = prezzo_tot_budget, c_budget = costo_tot_budget, p_consuntivo = prezzo_tot_consuntivo, c_consuntivo = costo_tot_consuntivo)   # link al nome del template generato (si assume di essere già nella cartella template
+    return render_template("Centro_ricavo.html", p_budget = prezzo_tot_budget, c_budget = costo_tot_budget,
+     p_std = prezzo_tot_std, c_std = costo_tot_std, p_eff = prezzo_tot_eff, c_eff = costo_tot_eff, p_consuntivo = prezzo_tot_consuntivo, c_consuntivo = costo_tot_consuntivo)   # link al nome del template generato (si assume di essere già nella cartella template
 
 # @app.route specify the exposed URL, in this case it is "http://my_site.com/"
 @app.route('/budget_produzione')
 def analisiBudget_produzione():
     # Simply render the template in templates/login/login.html
-    return render_template("C_ricavo/budget_produzione.html")   # link al nome del template generato (si assume di essere già nella cartella template
+
+    return render_template("C_ricavo/budget_produzione.html", list = list_articoli)   # link al nome del template generato (si assume di essere già nella cartella template
 
 # @app.route specify the exposed URL, in this case it is "http://my_site.com/"
 @app.route('/consuntivo_produzione')
 def analisiConsuntivo_produzione():
     # Simply render the template in templates/login/login.html
-    return render_template("C_ricavo/consuntivo_produzione.html")   # link al nome del template generato (si assume di essere già nella cartella template
+    return render_template("C_ricavo/consuntivo_produzione.html", list = list_articoli)   # link al nome del template generato (si assume di essere già nella cartella template
 
 # @app.route specify the exposed URL, in this case it is "http://my_site.com/"
 @app.route('/mixEffettivo_produzione')

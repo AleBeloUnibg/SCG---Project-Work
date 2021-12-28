@@ -1,3 +1,4 @@
+from decimal import Decimal
 
 class Articolo:
     def __init__(self, codArt):
@@ -18,6 +19,12 @@ class Articolo:
         self.quantitaStandardVenduta = 0
         self.quantitaEffettivoVenduta = 0
         self.quantitaConsuntivoVenduta = 0
+        self.quantitaStandardVenduta = 0
+        self.mixSTD = 0
+        self.mixEFF = 0
+    
+    def getCodice(self):
+        return self.codArt
 
     def setPrezzo(self, p, budget_consuntivo):
             if budget_consuntivo == "BUDGET":
@@ -29,13 +36,13 @@ class Articolo:
     
     def getPrezzo(self, budget_consuntivo):
             if budget_consuntivo == "BUDGET":
-                return self.prezzoBudget
+                return round(self.prezzoBudget, 3)
             elif budget_consuntivo == "STANDARD":
                 return self.prezzoStandard
             elif budget_consuntivo == "EFFETTIVO":
                 return self.prezzoEffettivo
             elif budget_consuntivo == "CONSUNTIVO":
-                return self.prezzoConsuntivo
+                return round(self.prezzoConsuntivo,3)
 
     def setCosto(self, c, budget_consuntivo):
             if budget_consuntivo == "BUDGET":
@@ -47,13 +54,13 @@ class Articolo:
     
     def getCosto(self, budget_consuntivo):
             if budget_consuntivo == "BUDGET":
-                return self.costoBudget
+                return round (Decimal(self.costoBudget),3)
             elif budget_consuntivo == "STANDARD":
                 return self.costoStandard
             elif budget_consuntivo == "EFFETTIVO":
                 return self.costoEffettivo
             elif budget_consuntivo == "CONSUNTIVO":
-                return self.costoConsuntivo
+                return round (Decimal(self.costoConsuntivo), 3)
 
     def setQuantitaProdotta(self, q, budget_consuntivo):
             if budget_consuntivo == "BUDGET":
@@ -95,11 +102,17 @@ class Articolo:
             elif budget_consuntivo == "CONSUNTIVO":
                 return self.quantitaConsuntivoVenduta
 
-    def setMix(self, m):
-        self.mix = m
+    def setMix(self, m, type):
+        if type == "STANDARD":
+            self.mixSTD = m
+        elif type == "EFFETTIVO":
+            self.mixEFF = m
 
-    def getMix(self):
-        return self.mix
+    def getMix(self, type):
+        if type == "STANDARD":
+            return self.mixSTD 
+        elif type == "EFFETTIVO":
+            return self.mixEFF
 
     def setMdc(self, mdc):
         self.mdc = mdc
