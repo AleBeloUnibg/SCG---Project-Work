@@ -63,7 +63,7 @@ set_quantita_vendute_x_art_std(connection,list_articoli)
 
 get_mix_eff(connection, list_articoli)
 set_quantita_prodotte_x_art_eff(list_articoli)
-set_quantita_vendute_x_art_eff(list_articoli)
+set_quantita_vendute_x_art_eff(connection, list_articoli)
 
 
 # @app.route specify the exposed URL, in this case it is "http://my_site.com/"
@@ -71,6 +71,7 @@ set_quantita_vendute_x_art_eff(list_articoli)
 def dashboard():
     costo_tot_budget = get_costo_tot_budget(list_articoli)
     prezzo_tot_budget = get_prezzo_tot_budget(connection)
+    
 
     costo_tot_consuntivo = get_costo_tot_consuntivo(list_articoli)
     prezzo_tot_consuntivo = get_prezzo_tot_consuntivo(connection)
@@ -87,7 +88,7 @@ def analisiCentroRicavo():
     prezzo_tot_std = get_prezzo_tot_std(connection)
     costo_tot_std = get_costo_tot_std(list_articoli)
 
-    prezzo_tot_eff = get_prezzo_tot_eff(list_articoli)
+    prezzo_tot_eff = get_prezzo_tot_eff(connection)
     costo_tot_eff = get_costo_tot_eff(list_articoli)
 
     costo_tot_consuntivo = get_costo_tot_consuntivo(list_articoli)

@@ -151,7 +151,7 @@ def get_costo_tot_consuntivo(list_articoli):
     for x in list_articoli:
         if x.getQuantitaProdotta("CONSUNTIVO") != 0:
             costo_consuntivo += (Decimal(x.getCosto("CONSUNTIVO")) / x.getQuantitaProdotta("CONSUNTIVO") * x.getQuantitaVenduta("CONSUNTIVO"))
-    
+            
     return round(costo_consuntivo,3)
 
 def get_prezzo_tot_consuntivo(connection):
@@ -203,7 +203,7 @@ def set_quantita_prodotte_x_art_std(list_articoli):
 
 def set_quantita_vendute_x_art_std(connection, list_articoli):
     
-    sql_select_Query = "SELECT mix_standard.codArt, mix_standard.qta FROM mix_standard"
+    sql_select_Query = "SELECT mix_standard.codArt, sum(mix_standard.qta) FROM mix_standard group by mix_standard.codArt"
     records = query(connection, sql_select_Query)
 
     for row in records:
@@ -217,7 +217,6 @@ def get_costo_tot_std(list_articoli):
     for x in list_articoli:
         if x.getQuantitaProdotta("BUDGET") != 0:
             costo_std += Decimal(x.getCosto("BUDGET")) / x.getQuantitaProdotta("BUDGET") * x.getQuantitaVenduta("STANDARD")
-            print(x.getCodice(), x.getQuantitaProdotta("BUDGET"), x.getQuantitaVenduta("STANDARD"), x.getCosto("BUDGET"))
     return round(costo_std,3)
 
 def get_prezzo_tot_std(connection):
@@ -251,26 +250,34 @@ def set_quantita_prodotte_x_art_eff(list_articoli):
         qta = art.getMix("EFFETTIVO") * get_quantita_tot_prodotta_consuntivo(list_articoli)
         art.setQuantitaProdotta(qta, "EFFETTIVO")
 
-def set_quantita_vendute_x_art_eff(list_articoli):
+def set_quantita_vendute_x_art_eff(connection, list_articoli):
     
-    for art in list_articoli:
-        qta = art.getMix("EFFETTIVO") * get_quantita_tot_venduta_consuntivo(list_articoli)
-        art.setQuantitaVenduta(qta, "EFFETTIVO")
+        sql_select_Query = "SELECT mix_effettivo.codArt, sum(mix_effettivo.qta) FROM mix_effettivo group by mix_effettivo.codArt"
+        records = query(connection, sql_select_Query)
+
+        for row in records:
+            qta = row[1]
+            art = amongUs(list_articoli, row[0])
+            art.setQuantitaVenduta(qta, "EFFETTIVO")
+
   
 def get_costo_tot_eff(list_articoli):   
     costo_eff = 0
               
     for x in list_articoli:
-        if x.getQuantitaProdotta("EFFETTIVO") != 0:
-            costo_eff += Decimal(x.getCosto("EFFETTIVO")) / x.getQuantitaProdotta("EFFETTIVO") * x.getQuantitaVenduta("EFFETTIVO") * x.getMix("EFFETTIVO")
+        if x.getQuantitaProdotta("BUDGET") != 0:
+            costo_eff += Decimal(x.getCosto("BUDGET")) / x.getQuantitaProdotta("BUDGET") * x.getQuantitaVenduta("EFFETTIVO") 
     
     return round(costo_eff,3)
 
-def get_prezzo_tot_eff(list_articoli):
+def get_prezzo_tot_eff(connection):
     prezzo_eff = 0
               
-    for x in list_articoli:
-        prezzo_eff += Decimal(x.getPrezzo("EFFETTIVO")) * x.getQuantitaVenduta("EFFETTIVO")
+    sql_select_Query = "SELECT mix_effettivo.qta, mix_effettivo.P_unit from mix_effettivo"
+    records = query(connection, sql_select_Query)
+
+    for row in records:
+        prezzo_eff += Decimal(row[1])*row[0]
     
     return round(prezzo_eff,3)
     
