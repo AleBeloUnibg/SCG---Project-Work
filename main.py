@@ -201,10 +201,14 @@ def set_quantita_prodotte_x_art_std(list_articoli):
         qta = art.getMix("STANDARD") * get_quantita_tot_prodotta_consuntivo(list_articoli)
         art.setQuantitaProdotta(qta, "STANDARD")
 
-def set_quantita_vendute_x_art_std(list_articoli):
+def set_quantita_vendute_x_art_std(connection, list_articoli):
     
-    for art in list_articoli:
-        qta = art.getMix("STANDARD") * get_quantita_tot_venduta_consuntivo(list_articoli)
+    sql_select_Query = "SELECT mix_standard.codArt, mix_standard.qta FROM mix_standard"
+    records = query(connection, sql_select_Query)
+
+    for row in records:
+        qta = row[1]
+        art = amongUs(list_articoli, row[0])
         art.setQuantitaVenduta(qta, "STANDARD")
 
 def get_costo_tot_std(list_articoli):
@@ -212,7 +216,8 @@ def get_costo_tot_std(list_articoli):
               
     for x in list_articoli:
         if x.getQuantitaProdotta("BUDGET") != 0:
-            costo_std += Decimal(x.getCosto("BUDGET")) / x.getQuantitaProdotta("BUDGET") * x.getQuantitaVenduta("BUDGET")
+            costo_std += Decimal(x.getCosto("BUDGET")) / x.getQuantitaProdotta("BUDGET") * x.getQuantitaVenduta("STANDARD")
+            print(x.getCodice(), x.getQuantitaProdotta("BUDGET"), x.getQuantitaVenduta("STANDARD"), x.getCosto("BUDGET"))
     return round(costo_std,3)
 
 def get_prezzo_tot_std(connection):

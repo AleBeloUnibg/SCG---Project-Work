@@ -59,7 +59,7 @@ get_quantita_vendute_x_art_consuntivo(connection, list_articoli)
 
 get_mix_std(connection, list_articoli)
 set_quantita_prodotte_x_art_std(list_articoli)
-set_quantita_vendute_x_art_std(list_articoli)
+set_quantita_vendute_x_art_std(connection,list_articoli)
 
 get_mix_eff(connection, list_articoli)
 set_quantita_prodotte_x_art_eff(list_articoli)

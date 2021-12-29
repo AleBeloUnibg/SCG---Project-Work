@@ -242,7 +242,7 @@
                                                                     <td>{{ art.getPrezzo("BUDGET") }}</td>
 
                                                                     {% if art.getQuantitaProdotta("BUDGET") != 0 %}
-                                                                        <td>{{ (art.getCosto("BUDGET")/ art.getQuantitaProdotta("BUDGET") * art.getQuantitaVenduta("BUDGET"))|round(3) }}</td>
+                                                                        <td>{{ (art.getCosto("BUDGET")/ art.getQuantitaProdotta("BUDGET"))|round(3) }}</td>
                                                                     {% else %}
                                                                         <td>0</td>
                                                                     {% endif %}
