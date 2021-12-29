@@ -84,7 +84,7 @@ def analisiCentroRicavo():
     costo_tot_budget = get_costo_tot_budget(list_articoli)
     prezzo_tot_budget = get_prezzo_tot_budget(connection)
 
-    prezzo_tot_std = get_prezzo_tot_std(list_articoli)
+    prezzo_tot_std = get_prezzo_tot_std(connection)
     costo_tot_std = get_costo_tot_std(list_articoli)
 
     prezzo_tot_eff = get_prezzo_tot_eff(list_articoli)
@@ -94,8 +94,15 @@ def analisiCentroRicavo():
     prezzo_tot_consuntivo = get_prezzo_tot_consuntivo(connection)
     
     # Simply render the template in templates/login/login.html
-    return render_template("Centro_ricavo.html", p_budget = prezzo_tot_budget, c_budget = costo_tot_budget,
-     p_std = prezzo_tot_std, c_std = costo_tot_std, p_eff = prezzo_tot_eff, c_eff = costo_tot_eff, p_consuntivo = prezzo_tot_consuntivo, c_consuntivo = costo_tot_consuntivo)   # link al nome del template generato (si assume di essere già nella cartella template
+    return render_template("Centro_ricavo.html", 
+    p_budget = prezzo_tot_budget, 
+    c_budget = costo_tot_budget,
+    p_std = prezzo_tot_std, 
+    c_std = costo_tot_std, 
+    p_eff = prezzo_tot_eff, 
+    c_eff = costo_tot_eff, 
+    p_consuntivo = prezzo_tot_consuntivo,
+    c_consuntivo = costo_tot_consuntivo)   # link al nome del template generato (si assume di essere già nella cartella template
 
 # @app.route specify the exposed URL, in this case it is "http://my_site.com/"
 @app.route('/budget_produzione')

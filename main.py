@@ -207,20 +207,22 @@ def set_quantita_vendute_x_art_std(list_articoli):
         qta = art.getMix("STANDARD") * get_quantita_tot_venduta_consuntivo(list_articoli)
         art.setQuantitaVenduta(qta, "STANDARD")
 
-
 def get_costo_tot_std(list_articoli):
     costo_std = 0
               
     for x in list_articoli:
-        if x.getQuantitaProdotta("STANDARD") != 0:
-            costo_std += Decimal(x.getCosto("STANDARD")) / x.getQuantitaProdotta("STANDARD") * x.getQuantitaVenduta("STANDARD") * x.getMix("STANDARD")
+        if x.getQuantitaProdotta("BUDGET") != 0:
+            costo_std += Decimal(x.getCosto("BUDGET")) / x.getQuantitaProdotta("BUDGET") * x.getQuantitaVenduta("BUDGET")
     return round(costo_std,3)
 
-def get_prezzo_tot_std(list_articoli):
+def get_prezzo_tot_std(connection):
     prezzo_std = 0
               
-    for x in list_articoli:
-        prezzo_std += Decimal(x.getPrezzo("STANDARD")) * x.getQuantitaVenduta("STANDARD")
+    sql_select_Query = "SELECT mix_standard.qta, mix_standard.P_unit from mix_standard"
+    records = query(connection, sql_select_Query)
+
+    for row in records:
+        prezzo_std += Decimal(row[1])*row[0]
     
     return round(prezzo_std,3)
 

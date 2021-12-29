@@ -233,14 +233,6 @@
                                                           </tr>
                                                         </thead>
                                                         <tbody>
-                                                          <tr>
-                                                            <td></td>
-                                                            <td>Search</td>
-                                                            <td>Search</td>
-                                                            <td>Search</td>
-                                                            <td>Search</td>
-                                                            <td>Search</td>
-                                                          </tr>
                                                             {% for art in list %}
                                                                 <tr>
                                                                     <td><i class="ti-close"></i></td>
@@ -248,7 +240,12 @@
                                                                     <td>{{ art.getQuantitaVenduta("BUDGET") }}</td>
                                                                     <td>{{ art.getMix("STANDARD") }}</td>
                                                                     <td>{{ art.getPrezzo("BUDGET") }}</td>
-                                                                    <td>{{ art.getCosto("BUDGET") }}</td>
+
+                                                                    {% if art.getQuantitaProdotta("BUDGET") != 0 %}
+                                                                        <td>{{ (art.getCosto("BUDGET")/ art.getQuantitaProdotta("BUDGET") * art.getQuantitaVenduta("BUDGET"))|round(3) }}</td>
+                                                                    {% else %}
+                                                                        <td>0</td>
+                                                                    {% endif %}
                                                                 </tr>
                                                             {% endfor %}
                                                         </tbody>
