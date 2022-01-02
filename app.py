@@ -86,16 +86,13 @@ def dashboard():
     costo_produzione_tot_budget = get_costo_produzione_tot_budget(list_articoli)
     costo_MP_tot_budget = get_costo_MP_tot_budget(list_articoli)
     prezzo_tot_budget = get_prezzo_tot_budget(connection)
-    
+
     costo_produzione_tot_consuntivo = get_costo_produzione_tot_consuntivo(list_articoli)
     costo_MP_tot_consuntivo = get_costo_MP_tot_consuntivo(list_articoli)
     prezzo_tot_consuntivo = get_prezzo_tot_consuntivo(connection)
 
-    
     delta_volume = sorted(list_articoli, key=lambda x: x.deltaScostamentoVolume, reverse=True)
-    
     delta_mix = sorted(list_articoli, key=lambda x: x.deltaScostamentoMix, reverse=True)
-    
     delta_prezzo_costo = sorted(list_articoli, key=lambda x: x.deltaScostamentoPrezzoCosto, reverse=True)
 
     # Simply render the template in templates/login/login.html
@@ -105,7 +102,6 @@ def dashboard():
     scostamento_volume = delta_volume,
     scostamento_mix = delta_mix,
     scostamento_prezzo = delta_prezzo_costo)   # link al nome del template generato (si assume di essere già nella cartella template
-
 
 # @app.route specify the exposed URL, in this case it is "http://my_site.com/"
 @app.route('/Centro_ricavo')
@@ -125,21 +121,21 @@ def analisiCentroRicavo():
     costo_produzione_tot_consuntivo = get_costo_produzione_tot_consuntivo(list_articoli)
     costo_MP_tot_consuntivo = get_costo_MP_tot_consuntivo(list_articoli)
     prezzo_tot_consuntivo = get_prezzo_tot_consuntivo(connection)
-    
+
     # Simply render the template in templates/login/login.html
-    return render_template("Centro_ricavo.html", 
-    p_budget = prezzo_tot_budget, 
+    return render_template("Centro_ricavo.html",
+    p_budget = prezzo_tot_budget,
     c_produzione_budget = costo_produzione_tot_budget,
     c_MP_budget = costo_MP_tot_budget,
-    
-    p_std = prezzo_tot_std, 
-    c_produzione_std = costo_produzione_tot_std, 
-    c_MP_std = costo_MP_tot_std, 
-    
-    p_eff = prezzo_tot_eff, 
-    c_produzione_eff = costo_produzione_tot_eff, 
-    c_MP_eff = costo_MP_tot_eff, 
-    
+
+    p_std = prezzo_tot_std,
+    c_produzione_std = costo_produzione_tot_std,
+    c_MP_std = costo_MP_tot_std,
+
+    p_eff = prezzo_tot_eff,
+    c_produzione_eff = costo_produzione_tot_eff,
+    c_MP_eff = costo_MP_tot_eff,
+
     p_consuntivo = prezzo_tot_consuntivo,
     c_produzione_consuntivo = costo_produzione_tot_consuntivo,
     c_MP_consuntivo = costo_MP_tot_consuntivo)   # link al nome del template generato (si assume di essere già nella cartella template
@@ -180,8 +176,8 @@ def articolop():
         if art.getCodice() == articolo:
             return render_template("C_ricavo/articolo.html", art = art)
     return "Articolo non trovato"
-    
-    
+
+
 
 # The app is served only if this file is run
 if __name__ == '__main__':
