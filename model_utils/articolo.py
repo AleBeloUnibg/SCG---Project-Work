@@ -24,6 +24,7 @@ class Articolo:
         self.quantitaEffettivoVenduta = 0
         self.quantitaConsuntivoVenduta = 0
         self.quantitaStandardVenduta = 0
+        self.ScostamentoQuantita = 0
         self.mixSTD = 0
         self.mixEFF = 0
     

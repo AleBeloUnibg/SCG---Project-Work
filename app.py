@@ -46,7 +46,7 @@ app.secret_key = "Very Strong Password"
 
 try:
     connection = mysql.connector.connect(host='localhost',
-        database='scg_tmp',
+        database='sistemi_controllo_gestione',
         user='root',
         password='')
 except Error as e:
@@ -82,13 +82,12 @@ def dashboard():
     costo_MP_tot_budget = get_costo_MP_tot_budget(list_articoli)
     prezzo_tot_budget = get_prezzo_tot_budget(connection)
     
-
     costo_produzione_tot_consuntivo = get_costo_produzione_tot_consuntivo(list_articoli)
     costo_MP_tot_consuntivo = get_costo_MP_tot_consuntivo(list_articoli)
     prezzo_tot_consuntivo = get_prezzo_tot_consuntivo(connection)
 
     # Simply render the template in templates/login/login.html
-    return render_template("index.html", mol_budget = prezzo_tot_budget - costo_produzione_tot_budget - costo_MP_tot_budget, mol_consuntivo = prezzo_tot_consuntivo - costo_produzione_tot_consuntivo - costo_MP_tot_consuntivo)   # link al nome del template generato (si assume di essere già nella cartella template
+    return render_template("index.html", mol_budget = prezzo_tot_budget - costo_produzione_tot_budget - costo_MP_tot_budget, mol_consuntivo = prezzo_tot_consuntivo - costo_produzione_tot_consuntivo - costo_MP_tot_consuntivo, scostamento_volume = list_articoli, scostamento_mix = list_articoli, scostamento_prezzo = list_articoli)   # link al nome del template generato (si assume di essere già nella cartella template
 
 # @app.route specify the exposed URL, in this case it is "http://my_site.com/"
 @app.route('/Centro_ricavo')

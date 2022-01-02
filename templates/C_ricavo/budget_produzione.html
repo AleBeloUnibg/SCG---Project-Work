@@ -241,7 +241,12 @@
                                                         <tbody>
                                                             {% for art in list %}
                                                                 <tr>
-                                                                    <td>{{ art.getCodice() }}</td>
+                                                                    <td>
+                                                                        <form action="/articolo" method="post">
+                                                                            <input type="text" style="display:none" name="articolo" value="{{ art.getCodice() }}">  <br />
+                                                                            <input class="btn waves-effect waves-light btn-primary btn-outline-primary" type="submit" value="{{ art.getCodice() }}">
+                                                                        </form>
+                                                                    </td>
                                                                     <td>{{ art.getQuantitaVenduta("BUDGET") }}</td>
                                                                     <td>{{ art.getMix("STANDARD") }}</td>
                                                                     <td>{{ art.getPrezzo("BUDGET") }} €</td>
@@ -253,7 +258,7 @@
                                                                     {% endif %}
                                                                     
                                                                     {% if art.getQuantitaProdotta("BUDGET") != 0 %}
-                                                                        <td>{{ (art.getCostoMP("BUDGET")/ art.getQuantitaProdotta("BUDGET"))|round(3) }} </td>
+                                                                        <td>{{ (art.getCostoMP("BUDGET")/ art.getQuantitaProdotta("BUDGET"))|round(3) }} €</td>
                                                                     {% else %}
                                                                         <td>0</td>
                                                                     {% endif %}

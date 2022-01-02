@@ -227,7 +227,11 @@
                                                         <span>Inserisci un codice articolo</span>
                                                     </div>
                                                     <form action="/articolo" method="post">
-                                                        <input type="text" class="col-md-4 form-control" name="articolo" placeholder="Codice articolo" value="ART">  <br />
+                                                        {% if art != undefined %}
+                                                            <input type="text" class="col-md-4 form-control" name="articolo" placeholder="Codice articolo" value="{{ art.getCodice() }}">  <br />
+                                                        {% else %}
+                                                            <input type="text" class="col-md-4 form-control" name="articolo" placeholder="Codice articolo" value="ART">  <br />
+                                                        {% endif %}
                                                         <input type="submit" class="btn waves-effect waves-light btn-primary btn-outline-primary" name= "form" value="Cerca" />
                                                     </form>
                                                 </div>

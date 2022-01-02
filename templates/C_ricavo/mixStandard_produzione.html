@@ -241,7 +241,12 @@
                                                           <tbody>
                                                               {% for art in list %}
                                                               <tr>
-                                                                  <td>{{ art.getCodice() }}</td>
+                                                                  <td>
+                                                                    <form action="/articolo" method="post">
+                                                                         <input type="text" style="display:none" name="articolo" value="{{ art.getCodice() }}">  <br />
+                                                                         <input class="btn waves-effect waves-light btn-primary btn-outline-primary" type="submit" value="{{ art.getCodice() }}">
+                                                                    </form>
+                                                                  </td>
                                                                   <td>{{ art.getQuantitaVenduta("STANDARD") }}</td>
                                                                   <td>{{ art.getMix("STANDARD") }}</td>
                                                                   <td>{{ art.getPrezzo("STANDARD") }} €</td>
