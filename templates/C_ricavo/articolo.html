@@ -272,13 +272,13 @@
                                                                     {% else %}
                                                                         <td>0 €</td>
                                                                     {% endif %}
-                                                                    {% if art.getQuantitaProdotta("STANDARD") != 0 %}
-                                                                        <td>{{ (art.getCostoProduzione("STANDARD")/ art.getQuantitaProdotta("STANDARD"))|round(3) }} €</td>
+                                                                    {% if art.getQuantitaProdotta("BUDGET") != 0 %}
+                                                                        <td>{{ (art.getCostoProduzione("STANDARD")/ art.getQuantitaProdotta("BUDGET"))|round(3) }} €</td>
                                                                     {% else %}
                                                                         <td>0 €</td>
                                                                     {% endif %}
-                                                                    {% if art.getQuantitaProdotta("EFFETTIVO") != 0 %}
-                                                                        <td>{{ (art.getCostoProduzione("EFFETTIVO")/ art.getQuantitaProdotta("EFFETTIVO"))|round(3) }} €</td>
+                                                                    {% if art.getQuantitaProdotta("BUDGET") != 0 %}
+                                                                        <td>{{ (art.getCostoProduzione("EFFETTIVO")/ art.getQuantitaProdotta("BUDGET"))|round(3) }} €</td>
                                                                     {% else %}
                                                                         <td>0 €</td>
                                                                     {% endif %}
@@ -295,13 +295,13 @@
                                                                     {% else %}
                                                                         <td>0 €</td>
                                                                     {% endif %}
-                                                                    {% if art.getQuantitaProdotta("STANDARD") != 0 %}
-                                                                        <td>{{ (art.getCostoMP("STANDARD")/ art.getQuantitaProdotta("STANDARD"))|round(3) }} €</td>
+                                                                    {% if art.getQuantitaProdotta("BUDGET") != 0 %}
+                                                                        <td>{{ (art.getCostoMP("STANDARD")/ art.getQuantitaProdotta("BUDGET"))|round(3) }} €</td>
                                                                     {% else %}
                                                                         <td>0 €</td>
                                                                     {% endif %}
-                                                                    {% if art.getQuantitaProdotta("EFFETTIVO") != 0 %}
-                                                                        <td>{{ (art.getCostoMP("EFFETTIVO")/ art.getQuantitaProdotta("EFFETTIVO"))|round(3) }} €</td>
+                                                                    {% if art.getQuantitaProdotta("BUDGET") != 0 %}
+                                                                        <td>{{ (art.getCostoMP("EFFETTIVO")/ art.getQuantitaProdotta("BUDGET"))|round(3) }} €</td>
                                                                     {% else %}
                                                                         <td>0 €</td>
                                                                     {% endif %}

@@ -233,10 +233,8 @@
                                                             <th>Quantità</th>
                                                             <th>Percentuale di mix</th>
                                                             <th>Prezzo Unitario</th>
-                                                            <th>Variazione Prezzo </th>
                                                             <th>Costo Unitario Produzione</th>
                                                             <th>Costo Unitario Materie Prime</th>
-                                                            <th>Variazione Costo </th>
                                                           </tr>
                                                         </thead>
                                                         <tbody>
@@ -246,7 +244,6 @@
                                                                     <td>{{ art.getQuantitaVenduta("CONSUNTIVO") }}</td>
                                                                     <td>{{ art.getMix("EFFETTIVO") }}</td>
                                                                     <td>{{ art.getPrezzo("CONSUNTIVO") }} €</td>
-                                                                    <td>???</td>
                                                                     {% if art.getQuantitaProdotta("CONSUNTIVO") != 0 %}
                                                                         <td>{{ (art.getCostoProduzione("CONSUNTIVO")/ art.getQuantitaProdotta("CONSUNTIVO"))|round(3) }} €</td>
                                                                     {% else %}
@@ -257,7 +254,6 @@
                                                                     {% else %}
                                                                         <td>0</td>
                                                                     {% endif %}
-                                                                    <td>???</td>
                                                                 </tr>
                                                             {% endfor %}
                                                         </tbody>

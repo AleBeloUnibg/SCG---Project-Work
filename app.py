@@ -32,8 +32,6 @@ from main import get_mix_eff
 from main import set_quantita_prodotte_x_art_eff
 from main import set_quantita_vendute_x_art_eff
 
-from ttkwidgets.autocomplete import AutocompleteEntry
-from tkinter import *
 
 import os
 
@@ -48,7 +46,7 @@ app.secret_key = "Very Strong Password"
 
 try:
     connection = mysql.connector.connect(host='localhost',
-        database='sistemi_controllo_gestione',
+        database='scg_tmp',
         user='root',
         password='')
 except Error as e:
@@ -128,8 +126,6 @@ def analisiCentroRicavo():
     p_consuntivo = prezzo_tot_consuntivo,
     c_produzione_consuntivo = costo_produzione_tot_consuntivo,
     c_MP_consuntivo = costo_MP_tot_consuntivo)   # link al nome del template generato (si assume di essere già nella cartella template
-
-from fast_autocomplete import AutoComplete
 
 # @app.route specify the exposed URL, in this case it is "http://my_site.com/"
 @app.route('/budget_produzione')

@@ -233,10 +233,8 @@
                                                             <th>Quantità</th>
                                                             <th>Percentuale di mix</th>
                                                             <th>Prezzo Unitario</th>
-                                                            <th>Variazione Prezzo </th>
                                                             <th>Costo Unitario Produzione</th>
                                                             <th>Costo Unitario Materie Prime</th>
-                                                            <th>Variazione Costo </th>
                                                           </tr>
                                                         </thead>
                                                         <tbody>
@@ -246,18 +244,16 @@
                                                                 <td>{{ art.getQuantitaVenduta("EFFETTIVO") }}</td>
                                                                 <td>{{ art.getMix("EFFETTIVO") }}</td>
                                                                 <td>{{ art.getPrezzo("EFFETTIVO") }} €</td>
-                                                                <td>???</td>
-                                                                {% if art.getQuantitaProdotta("EFFETTIVO") != 0 %}
-                                                                    <td>{{ (art.getCostoProduzione("EFFETTIVO")/ art.getQuantitaProdotta("EFFETTIVO"))|round(3) }} €</td>
+                                                                {% if art.getQuantitaProdotta("BUDGET") != 0 %}
+                                                                    <td>{{ (art.getCostoProduzione("EFFETTIVO")/ art.getQuantitaProdotta("BUDGET"))|round(3) }} €</td>
                                                                 {% else %}
                                                                     <td>0</td>
                                                                 {% endif %}
-                                                                {% if art.getQuantitaProdotta("EFFETTIVO") != 0 %}
-                                                                    <td>{{ (art.getCostoMP("EFFETTIVO")/ art.getQuantitaProdotta("EFFETTIVO"))|round(3) }} €</td>
+                                                                {% if art.getQuantitaProdotta("BUDGET") != 0 %}
+                                                                    <td>{{ (art.getCostoMP("EFFETTIVO")/ art.getQuantitaProdotta("BUDGET"))|round(3) }} €</td>
                                                                 {% else %}
                                                                     <td>0</td>
                                                                 {% endif %}
-                                                                <td>???</td>
                                                             </tr>
                                                         {% endfor %}
                                                         </tbody>
