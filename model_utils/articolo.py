@@ -40,13 +40,13 @@ class Articolo:
     
     def getPrezzo(self, budget_consuntivo):
             if budget_consuntivo == "BUDGET":
-                return round(self.prezzoBudget, 3)
+                return round(Decimal(self.prezzoBudget), 3)
             elif budget_consuntivo == "STANDARD":
-                return round(self.prezzoStandard,3)
+                return round(Decimal(self.prezzoStandard),3)
             elif budget_consuntivo == "EFFETTIVO":
-                return round(self.prezzoEffettivo,3)
+                return round(Decimal(self.prezzoEffettivo),3)
             elif budget_consuntivo == "CONSUNTIVO":
-                return round(self.prezzoConsuntivo,3)
+                return round(Decimal(self.prezzoConsuntivo),3)
 
     def setCostoProduzione(self, c, budget_consuntivo):
             if budget_consuntivo == "BUDGET":

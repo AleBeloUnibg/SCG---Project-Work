@@ -235,6 +235,7 @@
                                                             <th>Prezzo Unitario</th>
                                                             <th>Costo Unitario Produzione</th>
                                                             <th>Costo Unitario Materie Prime</th>
+                                                            <th>Margine di Contribuzione</th>
                                                           </tr>
                                                         </thead>
                                                         <tbody>
@@ -256,6 +257,15 @@
                                                                     {% else %}
                                                                         <td>0</td>
                                                                     {% endif %}
+
+                                                                    <td>
+                                                                        {% if art.getQuantitaProdotta("BUDGET") != 0 %}
+                                                                            {{ art.getPrezzo("BUDGET") - ((art.getCostoProduzione("BUDGET")/ art.getQuantitaProdotta("BUDGET"))|round(3) 
+                                                                                + (art.getCostoMP("BUDGET")/ art.getQuantitaProdotta("BUDGET"))|round(3)) }} €
+                                                                        {% else %}
+                                                                            {{ art.getPrezzo("BUDGET") }}
+                                                                        {% endif %} 
+                                                                    </td>
                                                                 </tr>
                                                             {% endfor %}
                                                         </tbody>

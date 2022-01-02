@@ -235,6 +235,7 @@
                                                             <th>Prezzo Unitario</th>
                                                             <th>Costo Unitario Produzione</th>
                                                             <th>Costo Unitario Materie Prime</th>
+                                                            <th>Margine di Contribuzione</th>
                                                           </tr>
                                                         </thead>
                                                         <tbody>
@@ -254,6 +255,16 @@
                                                                     {% else %}
                                                                         <td>0</td>
                                                                     {% endif %}
+
+                                                                    <td>
+                                                                        {% if art.getQuantitaProdotta("CONSUNTIVO") != 0 %}
+                                                                            {{ art.getPrezzo("CONSUNTIVO") - ((art.getCostoProduzione("CONSUNTIVO")/ art.getQuantitaProdotta("CONSUNTIVO"))|round(3) 
+                                                                                + (art.getCostoMP("CONSUNTIVO")/ art.getQuantitaProdotta("CONSUNTIVO"))|round(3)) }} €
+                                                                        {% else %}
+                                                                            {{ art.getPrezzo("CONSUNTIVO") }}
+                                                                        {% endif %} 
+                                                                    </td>
+
                                                                 </tr>
                                                             {% endfor %}
                                                         </tbody>
