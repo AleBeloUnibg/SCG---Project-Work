@@ -142,7 +142,7 @@ def get_costo_MP_x_art_consuntivo(connection, list_articoli):
 
 def get_prezzo_x_art_consuntivo(connection, list_articoli):
     
-    sql_select_Query = "SELECT vendite_consuntivo_x_art.codArt, sum(vendite_consuntivo_x_art.P_unit) as P_unit from vendite_consuntivo_x_art group by vendite_consuntivo_x_art.codArt"
+    sql_select_Query = "SELECT vendite_consuntivo_x_art.codArt, sum(vendite_consuntivo_x_art.P_unit*vendite_consuntivo_x_art.qta)/sum(vendite_consuntivo_x_art.qta) as P_unit from vendite_consuntivo_x_art group by vendite_consuntivo_x_art.codArt"
     
     records = query(connection, sql_select_Query)
 
@@ -337,3 +337,62 @@ def get_prezzo_tot_eff(connection):
     return round(prezzo_eff,3)
     
 # FINE EFFETTIVO
+
+# SCOSTAMENTO
+
+def set_scostamento_volume(list_articoli):
+
+    p_bdg = 0
+    p_std = 0
+    c_bdg = 0
+    c_std = 0
+
+    for art in list_articoli:
+        p_std = (art.getPrezzo("BUDGET")*art.getQuantitaVenduta("STANDARD"))
+        p_bdg = (art.getPrezzo("BUDGET")*art.getQuantitaVenduta("BUDGET"))
+        if art.getQuantitaProdotta("BUDGET") != 0:
+            c_std = (Decimal(art.getCostoMP("BUDGET") + art.getCostoProduzione("BUDGET")) / art.getQuantitaProdotta("BUDGET") * art.getQuantitaVenduta("STANDARD")) 
+            c_bdg = (Decimal(art.getCostoMP("BUDGET") + art.getCostoProduzione("BUDGET")) / art.getQuantitaProdotta("BUDGET") * art.getQuantitaVenduta("BUDGET")) 
+        delta = (p_std - p_bdg) - (c_std - c_bdg)
+
+        art.setDeltaVolume(delta)
+
+def set_scostamento_mix(list_articoli):
+
+    p_eff = 0
+    p_std = 0
+    c_eff = 0
+    c_std = 0
+
+    for art in list_articoli:
+        p_std = (art.getPrezzo("BUDGET")*art.getQuantitaVenduta("STANDARD"))
+        p_eff = (art.getPrezzo("BUDGET")*art.getQuantitaVenduta("EFFETTIVO"))
+        if art.getQuantitaProdotta("BUDGET") != 0:
+            c_std = (Decimal(art.getCostoMP("BUDGET") + art.getCostoProduzione("BUDGET")) / art.getQuantitaProdotta("BUDGET") * art.getQuantitaVenduta("STANDARD")) 
+            c_eff= (Decimal(art.getCostoMP("BUDGET") + art.getCostoProduzione("BUDGET")) / art.getQuantitaProdotta("BUDGET") * art.getQuantitaVenduta("EFFETTIVO")) 
+        delta = (p_eff - p_std) - (c_eff - c_std)
+
+        art.setDeltaVolume(delta)
+        
+def set_scostamento_prezzo_costo(list_articoli):
+
+    p_eff = 0
+    p_pc = 0
+    c_eff = 0
+    c_pc = 0
+
+    for art in list_articoli:
+        p_pc = (art.getPrezzo("CONSUNTIVO")*art.getQuantitaVenduta("CONSUNTIVO"))
+        p_eff = (art.getPrezzo("BUDGET")*art.getQuantitaVenduta("EFFETTIVO"))
+        if art.getQuantitaProdotta("CONSUNTIVO") != 0:
+            c_pc = (Decimal(art.getCostoMP("CONSUNTIVO") + art.getCostoProduzione("CONSUNTIVO")) / art.getQuantitaProdotta("CONSUNTIVO") * art.getQuantitaVenduta("CONSUNTIVO")) 
+        if art.getQuantitaProdotta("BUDGET") != 0:
+            c_eff= (Decimal(art.getCostoMP("BUDGET") + art.getCostoProduzione("BUDGET")) / art.getQuantitaProdotta("BUDGET") * art.getQuantitaVenduta("EFFETTIVO")) 
+        delta = (p_pc - p_eff) - (c_pc - c_eff)
+
+        
+        art.setDeltaVolume(delta)
+
+
+
+# FINE SCOSTAMENTO

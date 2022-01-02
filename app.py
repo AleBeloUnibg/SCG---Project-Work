@@ -31,7 +31,9 @@ from main import set_quantita_vendute_x_art_std
 from main import get_mix_eff
 from main import set_quantita_prodotte_x_art_eff
 from main import set_quantita_vendute_x_art_eff
-
+from main import set_scostamento_volume
+from main import set_scostamento_mix
+from main import set_scostamento_prezzo_costo
 
 import os
 
@@ -74,6 +76,9 @@ get_mix_eff(connection, list_articoli)
 set_quantita_prodotte_x_art_eff(list_articoli)
 set_quantita_vendute_x_art_eff(connection, list_articoli)
 
+set_scostamento_volume(list_articoli)
+set_scostamento_mix(list_articoli)
+set_scostamento_prezzo_costo(list_articoli)
 
 # @app.route specify the exposed URL, in this case it is "http://my_site.com/"
 @app.route('/')
@@ -87,8 +92,17 @@ def dashboard():
     costo_MP_tot_consuntivo = get_costo_MP_tot_consuntivo(list_articoli)
     prezzo_tot_consuntivo = get_prezzo_tot_consuntivo(connection)
 
+    delta_volume = sorted(list_articoli, key=lambda x: x.deltaScostamentoVolume, reverse=True)
+    delta_mix = sorted(list_articoli, key=lambda x: x.deltaScostamentoMix, reverse=True)
+    delta_prezzo_costo = sorted(list_articoli, key=lambda x: x.deltaScostamentoPrezzoCosto, reverse=True)
+
     # Simply render the template in templates/login/login.html
-    return render_template("index.html", mol_budget = prezzo_tot_budget - costo_produzione_tot_budget - costo_MP_tot_budget, mol_consuntivo = prezzo_tot_consuntivo - costo_produzione_tot_consuntivo - costo_MP_tot_consuntivo)   # link al nome del template generato (si assume di essere già nella cartella template
+    return render_template("index.html",
+    mol_budget = prezzo_tot_budget - costo_produzione_tot_budget - costo_MP_tot_budget,
+    mol_consuntivo = prezzo_tot_consuntivo - costo_produzione_tot_consuntivo - costo_MP_tot_consuntivo,
+    scostamento_volume = delta_volume,
+    scostamento_mix = delta_mix,
+    scostamento_prezzo = delta_prezzo_costo)   # link al nome del template generato (si assume di essere già nella cartella template
 
 # @app.route specify the exposed URL, in this case it is "http://my_site.com/"
 @app.route('/Centro_ricavo')

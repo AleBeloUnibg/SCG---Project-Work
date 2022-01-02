@@ -26,6 +26,9 @@ class Articolo:
         self.quantitaStandardVenduta = 0
         self.mixSTD = 0
         self.mixEFF = 0
+        self.deltaScostamentoVolume = 0
+        self.deltaScostamentoMix = 0
+        self.deltaScostamentoPrezzoCosto = 0
     
     def getCodice(self):
         return self.codArt
@@ -141,3 +144,22 @@ class Articolo:
 
     def getMdc(self):
         return self.mdc
+
+    def setDeltaVolume(self, delta):
+        self.deltaScostamentoVolume = delta
+
+    def setDeltaMix(self, delta):
+        self.deltaScostamentoMix = delta
+    
+    def setDeltaPrezzoCosto(self, delta):
+        self.deltaScostamentoPrezzoCosto = delta
+
+    def getDeltaVolume(self, delta):
+        return self.deltaScostamentoVolume
+
+    def getDeltaMix(self, delta):
+        return self.deltaScostamentoMix 
+    
+    def getDeltaPrezzoCosto(self, delta):
+        return self.deltaScostamentoPrezzoCosto
+    
