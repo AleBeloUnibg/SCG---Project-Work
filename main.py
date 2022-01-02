@@ -342,6 +342,7 @@ def get_prezzo_tot_eff(connection):
 
 def set_scostamento_volume(list_articoli):
 
+    delta_volume = 0
     p_bdg = 0
     p_std = 0
     c_bdg = 0
@@ -353,12 +354,13 @@ def set_scostamento_volume(list_articoli):
         if art.getQuantitaProdotta("BUDGET") != 0:
             c_std = (Decimal(art.getCostoMP("BUDGET") + art.getCostoProduzione("BUDGET")) / art.getQuantitaProdotta("BUDGET") * art.getQuantitaVenduta("STANDARD")) 
             c_bdg = (Decimal(art.getCostoMP("BUDGET") + art.getCostoProduzione("BUDGET")) / art.getQuantitaProdotta("BUDGET") * art.getQuantitaVenduta("BUDGET")) 
-        delta = (p_std - p_bdg) - (c_std - c_bdg)
+        delta_volume = (p_std - p_bdg) - (c_std - c_bdg)
 
-        art.setDeltaVolume(delta)
+        art.setDeltaVolume(delta_volume)
 
 def set_scostamento_mix(list_articoli):
 
+    delta_mix = 0
     p_eff = 0
     p_std = 0
     c_eff = 0
@@ -370,12 +372,13 @@ def set_scostamento_mix(list_articoli):
         if art.getQuantitaProdotta("BUDGET") != 0:
             c_std = (Decimal(art.getCostoMP("BUDGET") + art.getCostoProduzione("BUDGET")) / art.getQuantitaProdotta("BUDGET") * art.getQuantitaVenduta("STANDARD")) 
             c_eff= (Decimal(art.getCostoMP("BUDGET") + art.getCostoProduzione("BUDGET")) / art.getQuantitaProdotta("BUDGET") * art.getQuantitaVenduta("EFFETTIVO")) 
-        delta = (p_eff - p_std) - (c_eff - c_std)
+        delta_mix = (p_eff - p_std) - (c_eff - c_std)
 
-        art.setDeltaVolume(delta)
+        art.setDeltaMix(delta_mix)
         
 def set_scostamento_prezzo_costo(list_articoli):
 
+    delta_prezzo = 0
     p_eff = 0
     p_pc = 0
     c_eff = 0
@@ -388,10 +391,9 @@ def set_scostamento_prezzo_costo(list_articoli):
             c_pc = (Decimal(art.getCostoMP("CONSUNTIVO") + art.getCostoProduzione("CONSUNTIVO")) / art.getQuantitaProdotta("CONSUNTIVO") * art.getQuantitaVenduta("CONSUNTIVO")) 
         if art.getQuantitaProdotta("BUDGET") != 0:
             c_eff= (Decimal(art.getCostoMP("BUDGET") + art.getCostoProduzione("BUDGET")) / art.getQuantitaProdotta("BUDGET") * art.getQuantitaVenduta("EFFETTIVO")) 
-        delta = (p_pc - p_eff) - (c_pc - c_eff)
+        delta_prezzo = (p_pc - p_eff) - (c_pc - c_eff)
 
-        
-        art.setDeltaVolume(delta)
+        art.setDeltaPrezzoCosto(delta_prezzo)
 
 
 

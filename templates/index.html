@@ -234,7 +234,7 @@
                                                                                     </form>
                                                                                 </td>
                                                                                 <td class="text-right">
-                                                                                    <h6 class="f-w-700">€ {{ art.getCodice() }}<i class="fas fa-level-down-alt text-c-red m-l-10"></i></h6>
+                                                                                    <h6 class="f-w-700">€ {{ art.getDeltaVolume()|round(3) }}<i class="fas fa-level-down-alt text-c-red m-l-10"></i></h6>
                                                                                 </td>
                                                                             </tr>
                                                                         {% endfor %}
@@ -300,7 +300,7 @@
                                                                                     </form>
                                                                                 </td>
                                                                                 <td class="text-right">
-                                                                                    <h6 class="f-w-700">€ {{ art.getCodice() }}<i class="fas fa-level-down-alt text-c-red m-l-10"></i></h6>
+                                                                                    <h6 class="f-w-700">€ {{ art.getDeltaMix()|round(3) }}<i class="fas fa-level-down-alt text-c-red m-l-10"></i></h6>
                                                                                 </td>
                                                                             </tr>
                                                                         {% endfor %}
@@ -366,7 +366,7 @@
                                                                                     </form>
                                                                                 </td>
                                                                                 <td class="text-right">
-                                                                                    <h6 class="f-w-700">€ {{ art.getCodice() }}<i class="fas fa-level-up-alt text-c-green m-l-10"></i></h6>
+                                                                                    <h6 class="f-w-700">€ {{ art.getDeltaPrezzoCosto()|round(3) }}<i class="fas fa-level-up-alt text-c-green m-l-10"></i></h6>
                                                                                 </td>
                                                                             </tr>
                                                                         {% endfor %}

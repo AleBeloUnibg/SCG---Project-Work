@@ -155,12 +155,13 @@ class Articolo:
     def setDeltaPrezzoCosto(self, delta):
         self.deltaScostamentoPrezzoCosto = delta
 
-    def getDeltaVolume(self, delta):
+    def getDeltaVolume(self):
         return self.deltaScostamentoVolume
 
-    def getDeltaMix(self, delta):
+    def getDeltaMix(self):
+        print(self.deltaScostamentoMix )
         return self.deltaScostamentoMix 
     
-    def getDeltaPrezzoCosto(self, delta):
+    def getDeltaPrezzoCosto(self):
         return self.deltaScostamentoPrezzoCosto
     
