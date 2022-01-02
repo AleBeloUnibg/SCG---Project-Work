@@ -210,7 +210,7 @@
                                                 <div class="col-xl-6 col-md-12">
                                                     <div class="card table-card">
                                                         <div class="card-header">
-                                                            <h5>Performance rispetto allo Scostamento di Volume  [ Ricavi | Costi | Margine Operativo ]</h5>
+                                                            <h5>Performance rispetto allo Scostamento di Volume</h5>
                                                             <div class="card-header-right">
                                                                 <ul class="list-unstyled card-option">
                                                                     <li><i class="fa fa fa-wrench open-card-option"></i></li>
@@ -224,6 +224,14 @@
                                                         <div class="card-block">
                                                             <div class="table-responsive">
                                                                 <table class="table table-hover m-b-0 without-header">
+                                                                    <thead>                                                                        
+                                                                        <tr>
+                                                                            <th>Codice Articolo</th>
+                                                                            <th>Delta Ricavi</th>
+                                                                            <th>Delta Costi</th>
+                                                                            <th>Delta Mol</th>
+                                                                        </tr>
+                                                                    </thead>
                                                                     <tbody>
                                                                         {% for art in scostamento_volume[:5] %}
                                                                             <tr>
@@ -234,13 +242,25 @@
                                                                                     </form>
                                                                                 </td>
                                                                                 <td class="text-right">
+                                                                                    {% if art.getDeltaVolume("RICAVI")|round(3) < 0  %}
                                                                                     <h6 class="f-w-700">€ {{ art.getDeltaVolume("RICAVI")|round(3) }}<i class="fas fa-level-down-alt text-c-red m-l-10"></i></h6>
+                                                                                    {%else%}
+                                                                                    <h6 class="f-w-700">€ {{ art.getDeltaVolume("RICAVI")|round(3) }}<i class="fas fa-level-up-alt text-c-green m-l-10"></i></h6>
+                                                                                    {% endif %}
                                                                                 </td>
                                                                                 <td class="text-right">
+                                                                                    {% if art.getDeltaVolume("COSTI")|round(3) < 0  %}
                                                                                     <h6 class="f-w-700">€ {{ art.getDeltaVolume("COSTI")|round(3) }}<i class="fas fa-level-down-alt text-c-red m-l-10"></i></h6>
+                                                                                    {%else%}
+                                                                                    <h6 class="f-w-700">€ {{ art.getDeltaVolume("COSTI")|round(3) }}<i class="fas fa-level-up-alt text-c-green m-l-10"></i></h6>
+                                                                                    {% endif %}
                                                                                 </td>
                                                                                 <td class="text-right">
+                                                                                    {% if art.getDeltaVolume("MOL")|round(3) < 0  %}
                                                                                     <h6 class="f-w-700">€ {{ art.getDeltaVolume("MOL")|round(3) }}<i class="fas fa-level-down-alt text-c-red m-l-10"></i></h6>
+                                                                                    {%else%}
+                                                                                    <h6 class="f-w-700">€ {{ art.getDeltaVolume("MOL")|round(3) }}<i class="fas fa-level-up-alt text-c-green m-l-10"></i></h6>
+                                                                                    {% endif %}
                                                                                 </td>
                                                                             </tr>
                                                                         {% endfor %}
@@ -281,7 +301,7 @@
                                                 <div class="col-xl-6 col-md-12">
                                                     <div class="card table-card">
                                                         <div class="card-header">
-                                                            <h5>Performance rispetto allo Scostamento di Mix  [ Ricavi | Costi | Margine Operativo ]</h5>
+                                                            <h5>Performance rispetto allo Scostamento di Mix</h5>
                                                             <div class="card-header-right">
                                                                 <ul class="list-unstyled card-option">
                                                                     <li><i class="fa fa fa-wrench open-card-option"></i></li>
@@ -295,6 +315,14 @@
                                                         <div class="card-block">
                                                             <div class="table-responsive">
                                                                 <table class="table table-hover m-b-0 without-header">
+                                                                    <thead>                                                                        
+                                                                        <tr>
+                                                                            <th>Codice Articolo</th>
+                                                                            <th>Delta Ricavi</th>
+                                                                            <th>Delta Costi</th>
+                                                                            <th>Delta Mol</th>
+                                                                        </tr>
+                                                                    </thead>
                                                                     <tbody>
                                                                         {% for art in scostamento_mix[:5] %}
                                                                             <tr>
@@ -305,13 +333,25 @@
                                                                                     </form>
                                                                                 </td>
                                                                                 <td class="text-right">
+                                                                                    {% if art.getDeltaMix("RICAVI")|round(3) < 0  %}
                                                                                     <h6 class="f-w-700">€ {{ art.getDeltaMix("RICAVI")|round(3) }}<i class="fas fa-level-down-alt text-c-red m-l-10"></i></h6>
+                                                                                    {%else%}
+                                                                                    <h6 class="f-w-700">€ {{ art.getDeltaMix("RICAVI")|round(3) }}<i class="fas fa-level-up-alt text-c-green m-l-10"></i></h6>
+                                                                                    {% endif %}
                                                                                 </td>
                                                                                 <td class="text-right">
+                                                                                    {% if art.getDeltaMix("COSTI")|round(3) < 0  %}
                                                                                     <h6 class="f-w-700">€ {{ art.getDeltaMix("COSTI")|round(3) }}<i class="fas fa-level-down-alt text-c-red m-l-10"></i></h6>
+                                                                                    {%else%}
+                                                                                    <h6 class="f-w-700">€ {{ art.getDeltaMix("COSTI")|round(3) }}<i class="fas fa-level-up-alt text-c-green m-l-10"></i></h6>
+                                                                                    {% endif %}
                                                                                 </td>
                                                                                 <td class="text-right">
+                                                                                    {% if art.getDeltaMix("MOL")|round(3) < 0  %}
                                                                                     <h6 class="f-w-700">€ {{ art.getDeltaMix("MOL")|round(3) }}<i class="fas fa-level-down-alt text-c-red m-l-10"></i></h6>
+                                                                                    {%else%}
+                                                                                    <h6 class="f-w-700">€ {{ art.getDeltaMix("MOL")|round(3) }}<i class="fas fa-level-up-alt text-c-green m-l-10"></i></h6>
+                                                                                    {% endif %}
                                                                                 </td>
                                                                             </tr>
                                                                         {% endfor %}
@@ -352,7 +392,7 @@
                                                 <div class="col-xl-6 col-md-12">
                                                     <div class="card table-card">
                                                         <div class="card-header">
-                                                            <h5>Performance rispetto allo Scostamento di Prezzo  [ Ricavi | Costi | Margine Operativo ]</h5>
+                                                            <h5>Performance rispetto allo Scostamento di Prezzo</h5>
                                                             <div class="card-header-right">
                                                                 <ul class="list-unstyled card-option">
                                                                     <li><i class="fa fa fa-wrench open-card-option"></i></li>
@@ -366,6 +406,14 @@
                                                         <div class="card-block">
                                                             <div class="table-responsive">
                                                                 <table class="table table-hover m-b-0 without-header">
+                                                                    <thead>                                                                        
+                                                                        <tr>
+                                                                            <th>Codice Articolo</th>
+                                                                            <th>Delta Ricavi</th>
+                                                                            <th>Delta Costi</th>
+                                                                            <th>Delta Mol</th>
+                                                                        </tr>
+                                                                    </thead>
                                                                     <tbody>
                                                                         {% for art in scostamento_prezzo[:5] %}
                                                                             <tr>
@@ -376,13 +424,25 @@
                                                                                     </form>
                                                                                 </td>
                                                                                 <td class="text-right">
+                                                                                    {% if art.getDeltaPrezzoCosto("RICAVI")|round(3) < 0  %}
                                                                                     <h6 class="f-w-700">€ {{ art.getDeltaPrezzoCosto("RICAVI")|round(3) }}<i class="fas fa-level-down-alt text-c-red m-l-10"></i></h6>
+                                                                                    {%else%}
+                                                                                    <h6 class="f-w-700">€ {{ art.getDeltaPrezzoCosto("RICAVI")|round(3) }}<i class="fas fa-level-up-alt text-c-green m-l-10"></i></h6>
+                                                                                    {% endif %}
                                                                                 </td>
                                                                                 <td class="text-right">
+                                                                                    {% if art.getDeltaPrezzoCosto("COSTI")|round(3) < 0  %}
                                                                                     <h6 class="f-w-700">€ {{ art.getDeltaPrezzoCosto("COSTI")|round(3) }}<i class="fas fa-level-down-alt text-c-red m-l-10"></i></h6>
+                                                                                    {%else%}
+                                                                                    <h6 class="f-w-700">€ {{ art.getDeltaPrezzoCosto("COSTI")|round(3) }}<i class="fas fa-level-up-alt text-c-green m-l-10"></i></h6>
+                                                                                    {% endif %}
                                                                                 </td>
                                                                                 <td class="text-right">
+                                                                                    {% if art.getDeltaPrezzoCosto("MOL")|round(3) < 0  %}
                                                                                     <h6 class="f-w-700">€ {{ art.getDeltaPrezzoCosto("MOL")|round(3) }}<i class="fas fa-level-down-alt text-c-red m-l-10"></i></h6>
+                                                                                    {%else%}
+                                                                                    <h6 class="f-w-700">€ {{ art.getDeltaPrezzoCosto("MOL")|round(3) }}<i class="fas fa-level-up-alt text-c-green m-l-10"></i></h6>
+                                                                                    {% endif %}
                                                                                 </td>
                                                                             </tr>
                                                                         {% endfor %}
