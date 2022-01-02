@@ -77,11 +77,8 @@ set_quantita_prodotte_x_art_eff(list_articoli)
 set_quantita_vendute_x_art_eff(connection, list_articoli)
 
 set_scostamento_volume(list_articoli)
-delta_volume = list_articoli
 set_scostamento_mix(list_articoli)
-delta_mix = list_articoli
 set_scostamento_prezzo_costo(list_articoli)
-delta_prezzo_costo = list_articoli
 
 # @app.route specify the exposed URL, in this case it is "http://my_site.com/"
 @app.route('/')
@@ -93,6 +90,13 @@ def dashboard():
     costo_produzione_tot_consuntivo = get_costo_produzione_tot_consuntivo(list_articoli)
     costo_MP_tot_consuntivo = get_costo_MP_tot_consuntivo(list_articoli)
     prezzo_tot_consuntivo = get_prezzo_tot_consuntivo(connection)
+
+    
+    delta_volume = sorted(list_articoli, key=lambda x: x.deltaScostamentoVolume, reverse=True)
+    
+    delta_mix = sorted(list_articoli, key=lambda x: x.deltaScostamentoMix, reverse=True)
+    
+    delta_prezzo_costo = sorted(list_articoli, key=lambda x: x.deltaScostamentoPrezzoCosto, reverse=True)
 
     # Simply render the template in templates/login/login.html
     return render_template("index.html",

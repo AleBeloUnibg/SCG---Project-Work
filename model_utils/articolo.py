@@ -27,9 +27,15 @@ class Articolo:
         self.ScostamentoQuantita = 0
         self.mixSTD = 0
         self.mixEFF = 0
-        self.deltaScostamentoVolume = 0
-        self.deltaScostamentoMix = 0
-        self.deltaScostamentoPrezzoCosto = 0
+        self.deltaScostamentoVolume_p = 0
+        self.deltaScostamentoMix_p = 0
+        self.deltaScostamentoPrezzoCosto_p = 0
+        self.deltaScostamentoVolume_c = 0
+        self.deltaScostamentoMix_c = 0
+        self.deltaScostamentoPrezzoCosto_c = 0
+        self.deltaScostamentoVolume_m = 0
+        self.deltaScostamentoMix_m = 0
+        self.deltaScostamentoPrezzoCosto_m = 0
     
     def getCodice(self):
         return self.codArt
@@ -146,22 +152,42 @@ class Articolo:
     def getMdc(self):
         return self.mdc
 
-    def setDeltaVolume(self, delta):
-        self.deltaScostamentoVolume = delta
+    def setDeltaVolume(self, delta_p, delta_c, delta_m):
+        self.deltaScostamentoVolume_p = delta_p
+        self.deltaScostamentoVolume_c = delta_c
+        self.deltaScostamentoVolume_m = delta_m
 
-    def setDeltaMix(self, delta):
-        self.deltaScostamentoMix = delta
+    def setDeltaMix(self, delta_p, delta_c, delta_m):
+        self.deltaScostamentoMix_p = delta_p
+        self.deltaScostamentoMix_c = delta_c
+        self.deltaScostamentoMix_m = delta_m
     
-    def setDeltaPrezzoCosto(self, delta):
-        self.deltaScostamentoPrezzoCosto = delta
+    def setDeltaPrezzoCosto(self, delta_p, delta_c, delta_m):
+        self.deltaScostamentoPrezzoCosto_p = delta_p
+        self.deltaScostamentoPrezzoCosto_c = delta_c
+        self.deltaScostamentoPrezzoCosto_m = delta_m
 
-    def getDeltaVolume(self):
-        return self.deltaScostamentoVolume
+    def getDeltaVolume(self, type):
+        if type == "RICAVI":
+            return self.deltaScostamentoVolume_p
+        elif type == "COSTI":
+            return self.deltaScostamentoVolume_c
+        elif type == "MOL":
+            return self.deltaScostamentoVolume_m
 
-    def getDeltaMix(self):
-        print(self.deltaScostamentoMix )
-        return self.deltaScostamentoMix 
+    def getDeltaMix(self, type):
+        if type == "RICAVI":
+            return self.deltaScostamentoMix_p
+        elif type == "COSTI":
+            return self.deltaScostamentoMix_c
+        elif type == "MOL":
+            return self.deltaScostamentoMix_m
     
-    def getDeltaPrezzoCosto(self):
-        return self.deltaScostamentoPrezzoCosto
+    def getDeltaPrezzoCosto(self, type):
+        if type == "RICAVI":
+            return self.deltaScostamentoPrezzoCosto_p
+        elif type == "COSTI":
+            return self.deltaScostamentoPrezzoCosto_c
+        elif type == "MOL":
+            return self.deltaScostamentoPrezzoCosto_m
     
