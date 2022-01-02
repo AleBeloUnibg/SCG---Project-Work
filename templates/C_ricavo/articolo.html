@@ -236,14 +236,18 @@
                                                     </form>
                                                 </div>
                                             </div>
+                                            <div class="col-md-12">
+                                                <div class="card">
+                                                    <div class="card-header">
+                                                        {{ art.getCodice() }}
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            
                                             
                                             {% if art != undefined %}
-                                                <div class="col-md-12">
-                                                    <div class="card">
-                                                        <div class="card-header">
-                                                            {{ art.getCodice() }}
-                                                        </div>
-
+                                            <div class="col-md-12">
+                                                <div class="card">
                                                         <table class="table">
                                                             <thead class="thead-default">
                                                             <tr>
@@ -256,69 +260,92 @@
                                                             </thead>
                                                             <tbody>
                                                                 <tr>
-                                                                    <td>Prezzo unitario</td>
-                                                                    <td>{{ art.getPrezzo("BUDGET") }} €</td>
-                                                                    <td>{{ art.getPrezzo("STANDARD") }} €</td>
-                                                                    <td>{{ art.getPrezzo("EFFETTIVO") }} €</td>
-                                                                    <td>{{ art.getPrezzo("CONSUNTIVO") }} €</td>
+                                                                    <td>Quantita Prodotta</td>
+                                                                    <td>{{ art.getQuantitaProdotta("BUDGET") }}</td>
+                                                                    <td>{{ art.getQuantitaProdotta("STANDARD") }}</td>
+                                                                    <td>{{ art.getQuantitaProdotta("EFFETTIVO") }}</td>
+                                                                    <td>{{ art.getQuantitaProdotta("CONSUNTIVO") }}</td>
                                                                 </tr>
                                                                 <tr>
-                                                                    <td>Mix</td>
-                                                                    <td>{{ art.getMix("STANDARD") }}</td>
-                                                                    <td>{{ art.getMix("STANDARD") }}</td>
-                                                                    <td>{{ art.getMix("EFFETTIVO") }}</td>
-                                                                    <td>{{ art.getMix("EFFETTIVO") }}</td>
+                                                                    <td>Quantita Venduta</td>
+                                                                    <td>{{ art.getQuantitaVenduta("BUDGET") }}</td>
+                                                                    <td>{{ art.getQuantitaVenduta("STANDARD") }}</td>
+                                                                    <td>{{ art.getQuantitaVenduta("EFFETTIVO") }}</td>
+                                                                    <td>{{ art.getQuantitaVenduta("CONSUNTIVO") }}</td>
                                                                 </tr>
-                                                                <tr>
-                                                                    <td>Costo produzione</td>
-                                                                    {% if art.getQuantitaProdotta("BUDGET") != 0 %}
-                                                                        <td>{{ (art.getCostoProduzione("BUDGET")/ art.getQuantitaProdotta("BUDGET"))|round(3) }} €</td>
-                                                                    {% else %}
-                                                                        <td>0 €</td>
-                                                                    {% endif %}
-                                                                    {% if art.getQuantitaProdotta("BUDGET") != 0 %}
-                                                                        <td>{{ (art.getCostoProduzione("STANDARD")/ art.getQuantitaProdotta("BUDGET"))|round(3) }} €</td>
-                                                                    {% else %}
-                                                                        <td>0 €</td>
-                                                                    {% endif %}
-                                                                    {% if art.getQuantitaProdotta("BUDGET") != 0 %}
-                                                                        <td>{{ (art.getCostoProduzione("EFFETTIVO")/ art.getQuantitaProdotta("BUDGET"))|round(3) }} €</td>
-                                                                    {% else %}
-                                                                        <td>0 €</td>
-                                                                    {% endif %}
-                                                                    {% if art.getQuantitaProdotta("CONSUNTIVO") != 0 %}
-                                                                        <td>{{ (art.getCostoProduzione("CONSUNTIVO")/ art.getQuantitaProdotta("CONSUNTIVO"))|round(3) }} €</td>
-                                                                    {% else %}
-                                                                        <td>0 €</td>
-                                                                    {% endif %}
-                                                                </tr>
-                                                                <tr>
-                                                                    <td>Costo materie prime</td>
-                                                                    {% if art.getQuantitaProdotta("BUDGET") != 0 %}
-                                                                        <td>{{ (art.getCostoMP("BUDGET")/ art.getQuantitaProdotta("BUDGET"))|round(3) }} €</td>
-                                                                    {% else %}
-                                                                        <td>0 €</td>
-                                                                    {% endif %}
-                                                                    {% if art.getQuantitaProdotta("BUDGET") != 0 %}
-                                                                        <td>{{ (art.getCostoMP("STANDARD")/ art.getQuantitaProdotta("BUDGET"))|round(3) }} €</td>
-                                                                    {% else %}
-                                                                        <td>0 €</td>
-                                                                    {% endif %}
-                                                                    {% if art.getQuantitaProdotta("BUDGET") != 0 %}
-                                                                        <td>{{ (art.getCostoMP("EFFETTIVO")/ art.getQuantitaProdotta("BUDGET"))|round(3) }} €</td>
-                                                                    {% else %}
-                                                                        <td>0 €</td>
-                                                                    {% endif %}
-                                                                    {% if art.getQuantitaProdotta("CONSUNTIVO") != 0 %}
-                                                                        <td>{{ (art.getCostoMP("CONSUNTIVO")/ art.getQuantitaProdotta("CONSUNTIVO"))|round(3) }} €</td>
-                                                                    {% else %}
-                                                                        <td>0 €</td>
-                                                                    {% endif %}
-                                                                </tr>
+                                                                
                                                             </tbody>
                                                         </table>
-                                                    </div>
                                                 </div>
+                                            </div>
+                                            <div class="col-md-12">
+                                                <div class="card">
+                                                    
+                                                    <table class="table">
+                                                        <tr>
+                                                            <td>Prezzo unitario</td>
+                                                            <td>{{ art.getPrezzo("BUDGET") }} €</td>
+                                                            <td>{{ art.getPrezzo("STANDARD") }} €</td>
+                                                            <td>{{ art.getPrezzo("EFFETTIVO") }} €</td>
+                                                            <td>{{ art.getPrezzo("CONSUNTIVO") }} €</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>Mix</td>
+                                                            <td>{{ art.getMix("STANDARD") }}</td>
+                                                            <td>{{ art.getMix("STANDARD") }}</td>
+                                                            <td>{{ art.getMix("EFFETTIVO") }}</td>
+                                                            <td>{{ art.getMix("EFFETTIVO") }}</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>Costo produzione</td>
+                                                            {% if art.getQuantitaProdotta("BUDGET") != 0 %}
+                                                                <td>{{ (art.getCostoProduzione("BUDGET")/ art.getQuantitaProdotta("BUDGET"))|round(3) }} €</td>
+                                                            {% else %}
+                                                                <td>0 €</td>
+                                                            {% endif %}
+                                                            {% if art.getQuantitaProdotta("BUDGET") != 0 %}
+                                                                <td>{{ (art.getCostoProduzione("STANDARD")/ art.getQuantitaProdotta("BUDGET"))|round(3) }} €</td>
+                                                            {% else %}
+                                                                <td>0 €</td>
+                                                            {% endif %}
+                                                            {% if art.getQuantitaProdotta("BUDGET") != 0 %}
+                                                                <td>{{ (art.getCostoProduzione("EFFETTIVO")/ art.getQuantitaProdotta("BUDGET"))|round(3) }} €</td>
+                                                            {% else %}
+                                                                <td>0 €</td>
+                                                            {% endif %}
+                                                            {% if art.getQuantitaProdotta("CONSUNTIVO") != 0 %}
+                                                                <td>{{ (art.getCostoProduzione("CONSUNTIVO")/ art.getQuantitaProdotta("CONSUNTIVO"))|round(3) }} €</td>
+                                                            {% else %}
+                                                                <td>0 €</td>
+                                                            {% endif %}
+                                                        </tr>
+                                                        <tr>
+                                                            <td>Costo materie prime</td>
+                                                            {% if art.getQuantitaProdotta("BUDGET") != 0 %}
+                                                                <td>{{ (art.getCostoMP("BUDGET")/ art.getQuantitaProdotta("BUDGET"))|round(3) }} €</td>
+                                                            {% else %}
+                                                                <td>0 €</td>
+                                                            {% endif %}
+                                                            {% if art.getQuantitaProdotta("BUDGET") != 0 %}
+                                                                <td>{{ (art.getCostoMP("STANDARD")/ art.getQuantitaProdotta("BUDGET"))|round(3) }} €</td>
+                                                            {% else %}
+                                                                <td>0 €</td>
+                                                            {% endif %}
+                                                            {% if art.getQuantitaProdotta("BUDGET") != 0 %}
+                                                                <td>{{ (art.getCostoMP("EFFETTIVO")/ art.getQuantitaProdotta("BUDGET"))|round(3) }} €</td>
+                                                            {% else %}
+                                                                <td>0 €</td>
+                                                            {% endif %}
+                                                            {% if art.getQuantitaProdotta("CONSUNTIVO") != 0 %}
+                                                                <td>{{ (art.getCostoMP("CONSUNTIVO")/ art.getQuantitaProdotta("CONSUNTIVO"))|round(3) }} €</td>
+                                                            {% else %}
+                                                                <td>0 €</td>
+                                                            {% endif %}
+                                                        </tr>
+                                                    </table>
+                                                </div>
+                                            </div>
+
                                             {% endif %}
                                         </div>
                                     </div>
