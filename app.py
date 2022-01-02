@@ -2,17 +2,23 @@ from flask import Flask, render_template, request, session, redirect, url_for, s
 import mysql.connector
 from mysql.connector import Error
 from model_utils.articolo import Articolo
-from main import get_costo_tot_budget
+from main import get_costo_produzione_tot_budget
+from main import get_costo_MP_tot_budget
 from main import get_prezzo_tot_budget
-from main import get_costo_tot_consuntivo
+from main import get_costo_produzione_tot_consuntivo
+from main import get_costo_MP_tot_consuntivo
 from main import get_prezzo_tot_consuntivo
-from main import get_costo_tot_std
+from main import get_costo_produzione_tot_std
+from main import get_costo_MP_tot_std
 from main import get_prezzo_tot_std
-from main import get_costo_tot_eff
+from main import get_costo_produzione_tot_eff
+from main import get_costo_MP_tot_eff
 from main import get_prezzo_tot_eff
 
-from main import get_costo_x_art_budget
-from main import get_costo_x_art_consuntivo
+from main import get_costo_produzione_x_art_budget
+from main import get_costo_MP_x_art_budget
+from main import get_costo_produzione_x_art_consuntivo
+from main import get_costo_MP_x_art_consuntivo
 from main import get_prezzo_x_art_budget
 from main import get_prezzo_x_art_consuntivo
 from main import get_quantita_prodotte_x_art_budget
@@ -25,6 +31,9 @@ from main import set_quantita_vendute_x_art_std
 from main import get_mix_eff
 from main import set_quantita_prodotte_x_art_eff
 from main import set_quantita_vendute_x_art_eff
+
+from ttkwidgets.autocomplete import AutocompleteEntry
+from tkinter import *
 
 import os
 
@@ -47,12 +56,14 @@ except Error as e:
 
 list_articoli = []
 
-get_costo_x_art_budget(connection, list_articoli)
+get_costo_produzione_x_art_budget(connection, list_articoli)
+get_costo_MP_x_art_budget(connection, list_articoli)
 get_prezzo_x_art_budget(connection, list_articoli)
 get_quantita_prodotte_x_art_budget(connection, list_articoli)
 get_quantita_vendute_x_art_budget(connection, list_articoli)
 
-get_costo_x_art_consuntivo(connection, list_articoli)
+get_costo_produzione_x_art_consuntivo(connection, list_articoli)
+get_costo_MP_x_art_consuntivo(connection, list_articoli)
 get_prezzo_x_art_consuntivo(connection, list_articoli)
 get_quantita_prodotte_x_art_consuntivo(connection, list_articoli)
 get_quantita_vendute_x_art_consuntivo(connection, list_articoli)
@@ -69,47 +80,60 @@ set_quantita_vendute_x_art_eff(connection, list_articoli)
 # @app.route specify the exposed URL, in this case it is "http://my_site.com/"
 @app.route('/')
 def dashboard():
-    costo_tot_budget = get_costo_tot_budget(list_articoli)
+    costo_produzione_tot_budget = get_costo_produzione_tot_budget(list_articoli)
+    costo_MP_tot_budget = get_costo_MP_tot_budget(list_articoli)
     prezzo_tot_budget = get_prezzo_tot_budget(connection)
     
 
-    costo_tot_consuntivo = get_costo_tot_consuntivo(list_articoli)
+    costo_produzione_tot_consuntivo = get_costo_produzione_tot_consuntivo(list_articoli)
+    costo_MP_tot_consuntivo = get_costo_MP_tot_consuntivo(list_articoli)
     prezzo_tot_consuntivo = get_prezzo_tot_consuntivo(connection)
 
     # Simply render the template in templates/login/login.html
-    return render_template("index.html", mol_budget = prezzo_tot_budget - costo_tot_budget, mol_consuntivo = prezzo_tot_consuntivo - costo_tot_consuntivo)   # link al nome del template generato (si assume di essere già nella cartella template
+    return render_template("index.html", mol_budget = prezzo_tot_budget - costo_produzione_tot_budget - costo_MP_tot_budget, mol_consuntivo = prezzo_tot_consuntivo - costo_produzione_tot_consuntivo - costo_MP_tot_consuntivo)   # link al nome del template generato (si assume di essere già nella cartella template
 
 # @app.route specify the exposed URL, in this case it is "http://my_site.com/"
 @app.route('/Centro_ricavo')
 def analisiCentroRicavo():
-    costo_tot_budget = get_costo_tot_budget(list_articoli)
+    costo_produzione_tot_budget = get_costo_produzione_tot_budget(list_articoli)
+    costo_MP_tot_budget = get_costo_MP_tot_budget(list_articoli)
     prezzo_tot_budget = get_prezzo_tot_budget(connection)
 
     prezzo_tot_std = get_prezzo_tot_std(connection)
-    costo_tot_std = get_costo_tot_std(list_articoli)
+    costo_produzione_tot_std = get_costo_produzione_tot_std(list_articoli)
+    costo_MP_tot_std = get_costo_MP_tot_std(list_articoli)
 
     prezzo_tot_eff = get_prezzo_tot_eff(connection)
-    costo_tot_eff = get_costo_tot_eff(list_articoli)
+    costo_produzione_tot_eff = get_costo_produzione_tot_eff(list_articoli)
+    costo_MP_tot_eff = get_costo_MP_tot_eff(list_articoli)
 
-    costo_tot_consuntivo = get_costo_tot_consuntivo(list_articoli)
+    costo_produzione_tot_consuntivo = get_costo_produzione_tot_consuntivo(list_articoli)
+    costo_MP_tot_consuntivo = get_costo_MP_tot_consuntivo(list_articoli)
     prezzo_tot_consuntivo = get_prezzo_tot_consuntivo(connection)
     
     # Simply render the template in templates/login/login.html
     return render_template("Centro_ricavo.html", 
     p_budget = prezzo_tot_budget, 
-    c_budget = costo_tot_budget,
+    c_produzione_budget = costo_produzione_tot_budget,
+    c_MP_budget = costo_MP_tot_budget,
+    
     p_std = prezzo_tot_std, 
-    c_std = costo_tot_std, 
+    c_produzione_std = costo_produzione_tot_std, 
+    c_MP_std = costo_MP_tot_std, 
+    
     p_eff = prezzo_tot_eff, 
-    c_eff = costo_tot_eff, 
+    c_produzione_eff = costo_produzione_tot_eff, 
+    c_MP_eff = costo_MP_tot_eff, 
+    
     p_consuntivo = prezzo_tot_consuntivo,
-    c_consuntivo = costo_tot_consuntivo)   # link al nome del template generato (si assume di essere già nella cartella template
+    c_produzione_consuntivo = costo_produzione_tot_consuntivo,
+    c_MP_consuntivo = costo_MP_tot_consuntivo)   # link al nome del template generato (si assume di essere già nella cartella template
+
+from fast_autocomplete import AutoComplete
 
 # @app.route specify the exposed URL, in this case it is "http://my_site.com/"
 @app.route('/budget_produzione')
 def analisiBudget_produzione():
-    # Simply render the template in templates/login/login.html
-
     return render_template("C_ricavo/budget_produzione.html", list = list_articoli)   # link al nome del template generato (si assume di essere già nella cartella template
 
 # @app.route specify the exposed URL, in this case it is "http://my_site.com/"
@@ -122,15 +146,29 @@ def analisiConsuntivo_produzione():
 @app.route('/mixEffettivo_produzione')
 def analisiMixEffettivo_Produzione():
     # Simply render the template in templates/login/login.html
-    return render_template("C_ricavo/mixEffettivo_produzione.html")   # link al nome del template generato (si assume di essere già nella cartella template
+    return render_template("C_ricavo/mixEffettivo_produzione.html", list = list_articoli)   # link al nome del template generato (si assume di essere già nella cartella template
 
 # @app.route specify the exposed URL, in this case it is "http://my_site.com/"
 @app.route('/mixStandard_produzione')
 def analisiMixStandard_produzione():
     # Simply render the template in templates/login/login.html
-    return render_template("C_ricavo/mixStandard_produzione.html")   # link al nome del template generato (si assume di essere già nella cartella template
+    return render_template("C_ricavo/mixStandard_produzione.html", list = list_articoli)   # link al nome del template generato (si assume di essere già nella cartella template
 
+@app.route('/articolo', methods=['GET'])
+def articolog():
+    # Simply render the template in templates/login/login.html
+    return render_template("C_ricavo/articolo.html")   # link al nome del template generato (si assume di essere già nella cartella template
 
+@app.route('/articolo', methods=['POST'])
+def articolop():
+    articolo = request.form['articolo']
+
+    for art in list_articoli:
+        if art.getCodice() == articolo:
+            return render_template("C_ricavo/articolo.html", art = art)
+    return "Articolo non trovato"
+    
+    
 
 # The app is served only if this file is run
 if __name__ == '__main__':

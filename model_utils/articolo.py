@@ -7,10 +7,14 @@ class Articolo:
         self.prezzoStandard = 0
         self.prezzoEffettivo = 0
         self.prezzoConsuntivo = 0
-        self.costoBudget = 0
-        self.costoStandard = 0
-        self.costoEffettivo = 0
-        self.costoConsuntivo = 0
+        self.costoProduzioneBudget = 0
+        self.costoMPBudget = 0
+        self.costoProduzioneStandard = 0
+        self.costoMPStandard = 0
+        self.costoProduzioneEffettivo = 0
+        self.costoMPEffettivo = 0
+        self.costoProduzioneConsuntivo = 0
+        self.costoMPConsuntivo = 0
         self.quantitaBudgetProdotta = 0
         self.quantitaStandardProdotta = 0
         self.quantitaEffettivoProdotta = 0
@@ -38,29 +42,47 @@ class Articolo:
             if budget_consuntivo == "BUDGET":
                 return round(self.prezzoBudget, 3)
             elif budget_consuntivo == "STANDARD":
-                return self.prezzoStandard
+                return round(self.prezzoStandard,3)
             elif budget_consuntivo == "EFFETTIVO":
-                return self.prezzoEffettivo
+                return round(self.prezzoEffettivo,3)
             elif budget_consuntivo == "CONSUNTIVO":
                 return round(self.prezzoConsuntivo,3)
 
-    def setCosto(self, c, budget_consuntivo):
+    def setCostoProduzione(self, c, budget_consuntivo):
             if budget_consuntivo == "BUDGET":
-                self.costoBudget = c
-                self.costoStandard = c
-                self.costoEffettivo = c
+                self.costoProduzioneBudget = c
+                self.costoProduzioneStandard = c
+                self.costoProduzioneEffettivo = c
             elif budget_consuntivo == "CONSUNTIVO":
-                self.costoConsuntivo = c
+                self.costoProduzioneConsuntivo = c
     
-    def getCosto(self, budget_consuntivo):
+    def getCostoProduzione(self, budget_consuntivo):
             if budget_consuntivo == "BUDGET":
-                return round (Decimal(self.costoBudget),3)
+                return round (Decimal(self.costoProduzioneBudget),3)
             elif budget_consuntivo == "STANDARD":
-                return self.costoStandard
+                return round (Decimal(self.costoProduzioneStandard),3)
             elif budget_consuntivo == "EFFETTIVO":
-                return self.costoEffettivo
+                return round (Decimal(self.costoProduzioneEffettivo),3)
             elif budget_consuntivo == "CONSUNTIVO":
-                return round (Decimal(self.costoConsuntivo), 3)
+                return round (Decimal(self.costoProduzioneConsuntivo), 3)
+
+    def setCostoMP(self, c, budget_consuntivo):
+            if budget_consuntivo == "BUDGET":
+                self.costoMPBudget = c
+                self.costoMPStandard = c
+                self.costoMPEffettivo = c
+            elif budget_consuntivo == "CONSUNTIVO":
+                self.costoMPConsuntivo = c
+    
+    def getCostoMP(self, budget_consuntivo):
+            if budget_consuntivo == "BUDGET":
+                return round (Decimal(self.costoMPBudget),3)
+            elif budget_consuntivo == "STANDARD":
+                return round (Decimal(self.costoMPStandard),3)
+            elif budget_consuntivo == "EFFETTIVO":
+                return round (Decimal(self.costoMPEffettivo),3)
+            elif budget_consuntivo == "CONSUNTIVO":
+                return round (Decimal(self.costoMPConsuntivo), 3)
 
     def setQuantitaProdotta(self, q, budget_consuntivo):
             if budget_consuntivo == "BUDGET":

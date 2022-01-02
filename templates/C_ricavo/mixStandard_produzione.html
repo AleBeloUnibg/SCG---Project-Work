@@ -77,9 +77,7 @@
                                 </div>
                             </div>
                         </div>
-                        <a href="/">
-                            <img class="img-fluid" src="../assets/images/logo.png" alt="Theme-Logo" />
-                        </a>
+                        
                         <a class="mobile-options waves-effect waves-light">
                             <i class="ti-more"></i>
                         </a>
@@ -147,6 +145,13 @@
                                         <span class="pcoded-mcaret"></span>
                                     </a>
                                     <ul class="pcoded-submenu">
+                                        <li class=" ">
+                                            <a href="/articolo" class="waves-effect waves-dark">
+                                                <span class="pcoded-micon"><i class="ti-angle-right"></i></span>
+                                                <span class="pcoded-mtext">Articolo</span>
+                                                <span class="pcoded-mcaret"></span>
+                                            </a>
+                                        </li>
                                         <li class="">
                                             <a href="/budget_produzione" class="waves-effect waves-dark">
                                                 <span class="pcoded-micon"><i class="ti-angle-right"></i></span>
@@ -223,41 +228,39 @@
                                                     </div>
                                                     <table class="table">
                                                         <thead class="thead-default">
-                                                          <tr>
-                                                            <th>Codice Articolo</th>
-                                                            <th>Quantità</th>
-                                                            <th>Variazione Quantità </th>
-                                                            <th>Percentuale di mix</th>
-                                                            <th>Prezzo Unitario</th>
-                                                            <th>Costo Unitario</th>
-                                                          </tr>
-                                                        </thead>
-                                                        <tbody>
-                                                          <tr>
-                                                            <th scope="row">1</th>
-                                                            <td>Mark</td>
-                                                            <td>Otto</td>
-                                                            <td>Otto</td>
-                                                            <td>@mdo</td>
-                                                            <td>Otto</td>
-                                                          </tr>
-                                                          <tr>
-                                                            <th scope="row">2</th>
-                                                            <td>Jacob</td>
-                                                            <td>Thornton</td>
-                                                            <td>Otto</td>
-                                                            <td>@fat</td>
-                                                            <td>Otto</td>
-                                                          </tr>
-                                                          <tr>
-                                                            <th scope="row">3</th>
-                                                            <td>Larry</td>
-                                                            <td>the Bird</td>
-                                                            <td>Otto</td>
-                                                            <td>@twitter</td>
-                                                            <td>Otto</td>
-                                                          </tr>
-                                                        </tbody>
+                                                            <tr>
+                                                              <th>Codice Articolo</th>
+                                                              <th>Quantità</th>
+                                                              <th>Percentuale di mix</th>
+                                                              <th>Prezzo Unitario</th>
+                                                              <th>Variazione Prezzo </th>
+                                                              <th>Costo Unitario Produzione</th>
+                                                              <th>Costo Unitario Materie Prime</th>
+                                                              <th>Variazione Costo </th>
+                                                            </tr>
+                                                          </thead>
+                                                          <tbody>
+                                                              {% for art in list %}
+                                                              <tr>
+                                                                  <td>{{ art.getCodice() }}</td>
+                                                                  <td>{{ art.getQuantitaVenduta("STANDARD") }}</td>
+                                                                  <td>{{ art.getMix("STANDARD") }}</td>
+                                                                  <td>{{ art.getPrezzo("STANDARD") }} €</td>
+                                                                  <td>???</td>
+                                                                  {% if art.getQuantitaProdotta("STANDARD") != 0 %}
+                                                                      <td>{{ (art.getCostoProduzione("STANDARD")/ art.getQuantitaProdotta("STANDARD"))|round(3) }} €</td>
+                                                                  {% else %}
+                                                                      <td>0</td>
+                                                                  {% endif %}
+                                                                  {% if art.getQuantitaProdotta("STANDARD") != 0 %}
+                                                                      <td>{{ (art.getCostoMP("STANDARD")/ art.getQuantitaProdotta("STANDARD"))|round(3) }} €</td>
+                                                                  {% else %}
+                                                                      <td>0</td>
+                                                                  {% endif %}
+                                                                  <td>???</td>
+                                                              </tr>
+                                                          {% endfor %}
+                                                          </tbody>
                                                       </table>
                                                 </div>
                                             </div>

@@ -122,14 +122,14 @@
                             <div class="pcoded-navigation-label">Menu</div>
                             <ul class="pcoded-item pcoded-left-item">
                                 <li class="">
-                                    <a href="..//" class="waves-effect waves-dark">
+                                    <a href="/" class="waves-effect waves-dark">
                                         <span class="pcoded-micon"><i class="ti-home"></i><b>D</b></span>
                                         <span class="pcoded-mtext">Dashboard</span>
                                         <span class="pcoded-mcaret"></span>
                                     </a>
                                 </li>
                                 <li class="">
-                                    <a href="..//Centro_ricavo" class="waves-effect waves-dark">
+                                    <a href="/Centro_ricavo" class="waves-effect waves-dark">
                                         <span class="pcoded-micon"><i class="ti-home"></i><b>D</b></span>
                                         <span class="pcoded-mtext">Analisi Centro di Ricavo</span>
                                         <span class="pcoded-mcaret"></span>
@@ -145,28 +145,28 @@
                                         <span class="pcoded-mcaret"></span>
                                     </a>
                                     <ul class="pcoded-submenu">
-                                        <li class=" ">
+                                        <li class="active">
                                             <a href="/articolo" class="waves-effect waves-dark">
                                                 <span class="pcoded-micon"><i class="ti-angle-right"></i></span>
                                                 <span class="pcoded-mtext">Articolo</span>
                                                 <span class="pcoded-mcaret"></span>
                                             </a>
                                         </li>
-                                        <li class="">
+                                        <li class=" ">
                                             <a href="/budget_produzione" class="waves-effect waves-dark">
                                                 <span class="pcoded-micon"><i class="ti-angle-right"></i></span>
                                                 <span class="pcoded-mtext">Budget</span>
                                                 <span class="pcoded-mcaret"></span>
                                             </a>
                                         </li>
-                                        <li class="">
+                                        <li class=" ">
                                             <a href="/mixStandard_produzione" class="waves-effect waves-dark">
                                                 <span class="pcoded-micon"><i class="ti-angle-right"></i></span>
                                                 <span class="pcoded-mtext">Mix standard</span>
                                                 <span class="pcoded-mcaret"></span>
                                             </a>
                                         </li>
-                                        <li class="active">
+                                        <li class="">
                                             <a href="/mixEffettivo_produzione" class="waves-effect waves-dark">
                                                 <span class="pcoded-micon"><i class="ti-angle-right"></i></span>
                                                 <span class="pcoded-mtext">Mix effettivo</span>
@@ -192,8 +192,8 @@
                                 <div class="row align-items-center">
                                     <div class="col-md-8">
                                         <div class="page-header-title">
-                                            <h5 class="m-b-10">Mix Effettivo</h5>
-                                            <p class="m-b-0">Analisi dello scostamento con variazione volume e mix produttivo</p>
+                                            <h5 class="m-b-10">Articolo</h5>
+                                            <p class="m-b-0">Ricerca dei valori per Codice articolo</p>
                                         </div>
                                     </div>
                                     <div class="col-md-4">
@@ -205,7 +205,7 @@
                                             </li>
                                             <li class="breadcrumb-item"><a href="..//Centro_ricavo">Analisi</a>
                                             </li>
-                                            <li class="breadcrumb-item"><a href="#!">Mix Effettivo</a>
+                                            <li class="breadcrumb-item"><a href="#!">Articolo</a>
                                             </li>
                                         </ul>
                                     </div>
@@ -223,48 +223,99 @@
                                             <div class="col-md-12">
                                                 <div class="card">
                                                     <div class="card-header">
-                                                        <h5>Informazioni per articolo</h5>
-                                                        <span>Per ogni articolo vengono specificate informazioni di Mix Effettivo e la variazione di percentuale</span>
+                                                        <h5>Ricerca per articolo</h5>
+                                                        <span>Inserisci un codice articolo</span>
                                                     </div>
-                                                    <table class="table">
-                                                        <thead class="thead-default">
-                                                          <tr>
-                                                            <th>Codice Articolo</th>
-                                                            <th>Quantità</th>
-                                                            <th>Percentuale di mix</th>
-                                                            <th>Prezzo Unitario</th>
-                                                            <th>Variazione Prezzo </th>
-                                                            <th>Costo Unitario Produzione</th>
-                                                            <th>Costo Unitario Materie Prime</th>
-                                                            <th>Variazione Costo </th>
-                                                          </tr>
-                                                        </thead>
-                                                        <tbody>
-                                                            {% for art in list %}
-                                                            <tr>
-                                                                <td>{{ art.getCodice() }}</td>
-                                                                <td>{{ art.getQuantitaVenduta("EFFETTIVO") }}</td>
-                                                                <td>{{ art.getMix("EFFETTIVO") }}</td>
-                                                                <td>{{ art.getPrezzo("EFFETTIVO") }} €</td>
-                                                                <td>???</td>
-                                                                {% if art.getQuantitaProdotta("EFFETTIVO") != 0 %}
-                                                                    <td>{{ (art.getCostoProduzione("EFFETTIVO")/ art.getQuantitaProdotta("EFFETTIVO"))|round(3) }} €</td>
-                                                                {% else %}
-                                                                    <td>0</td>
-                                                                {% endif %}
-                                                                {% if art.getQuantitaProdotta("EFFETTIVO") != 0 %}
-                                                                    <td>{{ (art.getCostoMP("EFFETTIVO")/ art.getQuantitaProdotta("EFFETTIVO"))|round(3) }} €</td>
-                                                                {% else %}
-                                                                    <td>0</td>
-                                                                {% endif %}
-                                                                <td>???</td>
-                                                            </tr>
-                                                        {% endfor %}
-                                                        </tbody>
-                                                      </table>
+                                                    <form action="/articolo" method="post">
+                                                        <input type="text" class="col-md-4 form-control" name="articolo" placeholder="Codice articolo" value="ART">  <br />
+                                                        <input type="submit" class="btn waves-effect waves-light btn-primary btn-outline-primary" name= "form" value="Cerca" />
+                                                    </form>
                                                 </div>
                                             </div>
-                                           
+                                            
+                                            {% if art != undefined %}
+                                                <div class="col-md-12">
+                                                    <div class="card">
+                                                        <div class="card-header">
+                                                            {{ art.getCodice() }}
+                                                        </div>
+
+                                                        <table class="table">
+                                                            <thead class="thead-default">
+                                                            <tr>
+                                                                <th></th>
+                                                                <th>Budget</th>
+                                                                <th>Standard</th>
+                                                                <th>Effettivo</th>
+                                                                <th>Consuntivo</th>
+                                                            </tr>
+                                                            </thead>
+                                                            <tbody>
+                                                                <tr>
+                                                                    <td>Prezzo unitario</td>
+                                                                    <td>{{ art.getPrezzo("BUDGET") }} €</td>
+                                                                    <td>{{ art.getPrezzo("STANDARD") }} €</td>
+                                                                    <td>{{ art.getPrezzo("EFFETTIVO") }} €</td>
+                                                                    <td>{{ art.getPrezzo("CONSUNTIVO") }} €</td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td>Mix</td>
+                                                                    <td>{{ art.getMix("STANDARD") }}</td>
+                                                                    <td>{{ art.getMix("STANDARD") }}</td>
+                                                                    <td>{{ art.getMix("EFFETTIVO") }}</td>
+                                                                    <td>{{ art.getMix("EFFETTIVO") }}</td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td>Costo produzione</td>
+                                                                    {% if art.getQuantitaProdotta("BUDGET") != 0 %}
+                                                                        <td>{{ (art.getCostoProduzione("BUDGET")/ art.getQuantitaProdotta("BUDGET"))|round(3) }} €</td>
+                                                                    {% else %}
+                                                                        <td>0 €</td>
+                                                                    {% endif %}
+                                                                    {% if art.getQuantitaProdotta("STANDARD") != 0 %}
+                                                                        <td>{{ (art.getCostoProduzione("STANDARD")/ art.getQuantitaProdotta("STANDARD"))|round(3) }} €</td>
+                                                                    {% else %}
+                                                                        <td>0 €</td>
+                                                                    {% endif %}
+                                                                    {% if art.getQuantitaProdotta("EFFETTIVO") != 0 %}
+                                                                        <td>{{ (art.getCostoProduzione("EFFETTIVO")/ art.getQuantitaProdotta("EFFETTIVO"))|round(3) }} €</td>
+                                                                    {% else %}
+                                                                        <td>0 €</td>
+                                                                    {% endif %}
+                                                                    {% if art.getQuantitaProdotta("CONSUNTIVO") != 0 %}
+                                                                        <td>{{ (art.getCostoProduzione("CONSUNTIVO")/ art.getQuantitaProdotta("CONSUNTIVO"))|round(3) }} €</td>
+                                                                    {% else %}
+                                                                        <td>0 €</td>
+                                                                    {% endif %}
+                                                                </tr>
+                                                                <tr>
+                                                                    <td>Costo materie prime</td>
+                                                                    {% if art.getQuantitaProdotta("BUDGET") != 0 %}
+                                                                        <td>{{ (art.getCostoMP("BUDGET")/ art.getQuantitaProdotta("BUDGET"))|round(3) }} €</td>
+                                                                    {% else %}
+                                                                        <td>0 €</td>
+                                                                    {% endif %}
+                                                                    {% if art.getQuantitaProdotta("STANDARD") != 0 %}
+                                                                        <td>{{ (art.getCostoMP("STANDARD")/ art.getQuantitaProdotta("STANDARD"))|round(3) }} €</td>
+                                                                    {% else %}
+                                                                        <td>0 €</td>
+                                                                    {% endif %}
+                                                                    {% if art.getQuantitaProdotta("EFFETTIVO") != 0 %}
+                                                                        <td>{{ (art.getCostoMP("EFFETTIVO")/ art.getQuantitaProdotta("EFFETTIVO"))|round(3) }} €</td>
+                                                                    {% else %}
+                                                                        <td>0 €</td>
+                                                                    {% endif %}
+                                                                    {% if art.getQuantitaProdotta("CONSUNTIVO") != 0 %}
+                                                                        <td>{{ (art.getCostoMP("CONSUNTIVO")/ art.getQuantitaProdotta("CONSUNTIVO"))|round(3) }} €</td>
+                                                                    {% else %}
+                                                                        <td>0 €</td>
+                                                                    {% endif %}
+                                                                </tr>
+                                                            </tbody>
+                                                        </table>
+                                                    </div>
+                                                </div>
+                                            {% endif %}
                                         </div>
                                     </div>
                                 </div>
@@ -279,3 +330,4 @@
         </div>
     </div>
 {% endblock %}
+

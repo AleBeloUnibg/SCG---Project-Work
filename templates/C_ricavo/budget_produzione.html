@@ -77,9 +77,7 @@
                                 </div>
                             </div>
                         </div>
-                        <a href="/">
-                            <img class="img-fluid" src="../assets/images/logo.png" alt="Theme-Logo" />
-                        </a>
+                        
                         <a class="mobile-options waves-effect waves-light">
                             <i class="ti-more"></i>
                         </a>
@@ -147,6 +145,13 @@
                                         <span class="pcoded-mcaret"></span>
                                     </a>
                                     <ul class="pcoded-submenu">
+                                        <li class=" ">
+                                            <a href="/articolo" class="waves-effect waves-dark">
+                                                <span class="pcoded-micon"><i class="ti-angle-right"></i></span>
+                                                <span class="pcoded-mtext">Articolo</span>
+                                                <span class="pcoded-mcaret"></span>
+                                            </a>
+                                        </li>
                                         <li class="active">
                                             <a href="/budget_produzione" class="waves-effect waves-dark">
                                                 <span class="pcoded-micon"><i class="ti-angle-right"></i></span>
@@ -224,25 +229,30 @@
                                                     <table class="table">
                                                         <thead class="thead-default">
                                                           <tr>
-                                                            <th></th>
                                                             <th>Codice Articolo</th>
                                                             <th>Quantità</th>
                                                             <th>Percentuale di mix</th>
                                                             <th>Prezzo Unitario</th>
-                                                            <th>Costo Unitario</th>
+                                                            <th>Costo Unitario Produzione</th>
+                                                            <th>Costo Unitario Materie Prime</th>
                                                           </tr>
                                                         </thead>
                                                         <tbody>
                                                             {% for art in list %}
                                                                 <tr>
-                                                                    <td><i class="ti-close"></i></td>
                                                                     <td>{{ art.getCodice() }}</td>
                                                                     <td>{{ art.getQuantitaVenduta("BUDGET") }}</td>
                                                                     <td>{{ art.getMix("STANDARD") }}</td>
-                                                                    <td>{{ art.getPrezzo("BUDGET") }}</td>
+                                                                    <td>{{ art.getPrezzo("BUDGET") }} €</td>
 
                                                                     {% if art.getQuantitaProdotta("BUDGET") != 0 %}
-                                                                        <td>{{ (art.getCosto("BUDGET")/ art.getQuantitaProdotta("BUDGET"))|round(3) }}</td>
+                                                                        <td>{{ (art.getCostoProduzione("BUDGET")/ art.getQuantitaProdotta("BUDGET"))|round(3) }} €</td>
+                                                                    {% else %}
+                                                                        <td>0</td>
+                                                                    {% endif %}
+                                                                    
+                                                                    {% if art.getQuantitaProdotta("BUDGET") != 0 %}
+                                                                        <td>{{ (art.getCostoMP("BUDGET")/ art.getQuantitaProdotta("BUDGET"))|round(3) }} </td>
                                                                     {% else %}
                                                                         <td>0</td>
                                                                     {% endif %}

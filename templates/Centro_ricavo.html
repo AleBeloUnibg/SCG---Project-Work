@@ -138,6 +138,13 @@
                                     </a>
                                     <ul class="pcoded-submenu">
                                         <li class=" ">
+                                            <a href="/articolo" class="waves-effect waves-dark">
+                                                <span class="pcoded-micon"><i class="ti-angle-right"></i></span>
+                                                <span class="pcoded-mtext">Articolo</span>
+                                                <span class="pcoded-mcaret"></span>
+                                            </a>
+                                        </li>
+                                        <li class=" ">
                                             <a href="/budget_produzione" class="waves-effect waves-dark">
                                                 <span class="pcoded-micon"><i class="ti-angle-right"></i></span>
                                                 <span class="pcoded-mtext">Budget</span>
@@ -213,35 +220,56 @@
                                                         <thead class="thead-default">
                                                           <tr>
                                                             <th>#</th>
-                                                            <th>Ricavi</th>
-                                                            <th>Costi</th>
-                                                            <th>MOL</th>
+                                                            <th>Budget</th>
+                                                            <th>Scostamento Volume</th>
+                                                            <th>Mix Standard</th>
+                                                            <th>Scostamento Mix</th>
+                                                            <th>Mix Effettivo</th>
+                                                            <th>Scostamento Prezzo</th>
+                                                            <th>Consuntivo</th>
                                                           </tr>
                                                         </thead>
                                                         <tbody>
                                                           <tr>
-                                                            <th scope="row">Budget</th>
-                                                            <td>{{ p_budget }}</td>
-                                                            <td>{{ c_budget }}</td>
-                                                            <td>{{ (p_budget - c_budget) }}</td>
+                                                            <th scope="row">Ricavi</th>
+                                                            <td>{{ p_budget }} €</td>
+                                                            <td>{{ p_std - p_budget}} €</td>
+                                                            <td>{{ p_std }} €</td>
+                                                            <td>{{ p_eff - p_std }} €</td>
+                                                            <td>{{ p_eff }} €</td>
+                                                            <td>{{ p_consuntivo - p_eff }} €</td>
+                                                            <td>{{ p_consuntivo }} €</td>
                                                           </tr>
                                                           <tr>
-                                                            <th scope="row">Mix Standard</th>
-                                                            <td>{{ p_std }}</td>
-                                                            <td>{{ c_std }}</td>
-                                                            <td>{{ p_std - c_std }}</td>
+                                                            <th scope="row">Costi Produttivi</th>
+                                                            <td>{{ c_produzione_budget }} €</td>
+                                                            <td>{{ c_produzione_std - c_produzione_budget }} €</td>
+                                                            <td>{{ c_produzione_std }} €</td>
+                                                            <td>{{ c_produzione_eff - c_produzione_std }} €</td>
+                                                            <td>{{ c_produzione_eff }} €</td>
+                                                            <td>{{ c_produzione_consuntivo - c_produzione_eff }} €</td>
+                                                            <td>{{ c_produzione_consuntivo }} €</td>
+                                                          </tr>
                                                           </tr>
                                                           <tr>
-                                                            <th scope="row">Mix Effettivo</th>
-                                                            <td>{{ p_eff }}</td>
-                                                            <td>{{ c_eff }}</td>
-                                                            <td>{{ (p_eff - c_eff) }}</td>
+                                                            <th scope="row">Costi Materie Prime</th>
+                                                            <td>{{ c_MP_budget }} €</td>
+                                                            <td>{{ c_MP_std - c_MP_budget }} €</td>
+                                                            <td>{{ c_MP_std }} €</td>
+                                                            <td>{{ c_MP_eff - c_MP_std }} €</td>
+                                                            <td>{{ c_MP_eff }} €</td>
+                                                            <td>{{ c_MP_consuntivo - c_MP_eff }} €</td>
+                                                            <td>{{ c_MP_consuntivo }} €</td>
                                                           </tr>
                                                           <tr>
-                                                            <th scope="row">Consuntivo</th>
-                                                            <td>{{ p_consuntivo }}</td>
-                                                            <td>{{ c_consuntivo }}</td>
-                                                            <td>{{ (p_consuntivo - c_consuntivo) }}</td>
+                                                            <th scope="row">MOL</th>
+                                                            <td>{{ p_budget - c_produzione_budget - c_MP_budget }} €</td>
+                                                            <td>{{ (p_std - c_produzione_std - c_MP_std) - (p_budget - c_produzione_budget - c_MP_budget) }} €</td>
+                                                            <td>{{ p_std - c_produzione_std - c_MP_std }} €</td>
+                                                            <td>{{ (p_eff - c_produzione_eff - c_MP_eff) - (p_std - c_produzione_std - c_MP_std) }} €</td>
+                                                            <td>{{ p_eff - c_produzione_eff - c_MP_eff }} €</td>
+                                                            <td>{{ (p_consuntivo - c_produzione_consuntivo - c_MP_consuntivo) - (p_eff - c_produzione_eff - c_MP_eff) }} €</td>
+                                                            <td>{{ p_consuntivo - c_produzione_consuntivo - c_MP_consuntivo }} €</td>
                                                           </tr>
                                                         </tbody>
                                                       </table>
