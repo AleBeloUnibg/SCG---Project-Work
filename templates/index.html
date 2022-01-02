@@ -210,7 +210,7 @@
                                                 <div class="col-xl-6 col-md-12">
                                                     <div class="card table-card">
                                                         <div class="card-header">
-                                                            <h5>Performance rispetto allo Scostamento di volume</h5>
+                                                            <h5>Performance rispetto allo Scostamento di Volume  [ Ricavi | Costi | Margine Operativo ]</h5>
                                                             <div class="card-header-right">
                                                                 <ul class="list-unstyled card-option">
                                                                     <li><i class="fa fa fa-wrench open-card-option"></i></li>
@@ -234,7 +234,13 @@
                                                                                     </form>
                                                                                 </td>
                                                                                 <td class="text-right">
-                                                                                    <h6 class="f-w-700">€ {{ art.getDeltaVolume()|round(3) }}<i class="fas fa-level-down-alt text-c-red m-l-10"></i></h6>
+                                                                                    <h6 class="f-w-700">€ {{ art.getDeltaVolume("RICAVI")|round(3) }}<i class="fas fa-level-down-alt text-c-red m-l-10"></i></h6>
+                                                                                </td>
+                                                                                <td class="text-right">
+                                                                                    <h6 class="f-w-700">€ {{ art.getDeltaVolume("COSTI")|round(3) }}<i class="fas fa-level-down-alt text-c-red m-l-10"></i></h6>
+                                                                                </td>
+                                                                                <td class="text-right">
+                                                                                    <h6 class="f-w-700">€ {{ art.getDeltaVolume("MOL")|round(3) }}<i class="fas fa-level-down-alt text-c-red m-l-10"></i></h6>
                                                                                 </td>
                                                                             </tr>
                                                                         {% endfor %}
@@ -271,12 +277,11 @@
                                                     </div>
                                                 </div>
                                                 <!--  sale analytics end -->
-
                                                 <!--  sale analytics start -->
                                                 <div class="col-xl-6 col-md-12">
                                                     <div class="card table-card">
                                                         <div class="card-header">
-                                                            <h5>Performance rispetto allo Scostamento di Mix</h5>
+                                                            <h5>Performance rispetto allo Scostamento di Mix  [ Ricavi | Costi | Margine Operativo ]</h5>
                                                             <div class="card-header-right">
                                                                 <ul class="list-unstyled card-option">
                                                                     <li><i class="fa fa fa-wrench open-card-option"></i></li>
@@ -300,7 +305,84 @@
                                                                                     </form>
                                                                                 </td>
                                                                                 <td class="text-right">
-                                                                                    <h6 class="f-w-700">€ {{ art.getDeltaMix()|round(3) }}<i class="fas fa-level-down-alt text-c-red m-l-10"></i></h6>
+                                                                                    <h6 class="f-w-700">€ {{ art.getDeltaMix("RICAVI")|round(3) }}<i class="fas fa-level-down-alt text-c-red m-l-10"></i></h6>
+                                                                                </td>
+                                                                                <td class="text-right">
+                                                                                    <h6 class="f-w-700">€ {{ art.getDeltaMix("COSTI")|round(3) }}<i class="fas fa-level-down-alt text-c-red m-l-10"></i></h6>
+                                                                                </td>
+                                                                                <td class="text-right">
+                                                                                    <h6 class="f-w-700">€ {{ art.getDeltaMix("MOL")|round(3) }}<i class="fas fa-level-down-alt text-c-red m-l-10"></i></h6>
+                                                                                </td>
+                                                                            </tr>
+                                                                        {% endfor %}
+                                                                    </tbody>
+                                                                </table>
+    
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-xl-6 col-md-12">
+                                                    <div class="row">
+                                                        <!-- sale card start -->
+    
+                                                        <div class="col-md-6">
+                                                            <div class="card text-center order-visitor-card">
+                                                                <div class="card-block">
+                                                                    <h6 class="m-b-0">Worst</h6>
+                                                                    <h4 class="m-t-15 m-b-15"><i class="fa fa-arrow-down m-r-15 text-c-red"></i>7652</h4>
+                                                                    <p class="m-b-0">48% From Last 24 Hours</p>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-6">
+                                                            <div class="card text-center order-visitor-card">
+                                                                <div class="card-block">
+                                                                    <h6 class="m-b-0">Best</h6>
+                                                                    <h4 class="m-t-15 m-b-15"><i class="fa fa-arrow-up m-r-15 text-c-green"></i>6325</h4>
+                                                                    <p class="m-b-0">36% From Last 6 Months</p>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <!-- sale card end -->
+                                                    </div>
+                                                </div>
+                                                <!--  sale analytics end -->
+                                                <!--  sale analytics start -->
+                                                <div class="col-xl-6 col-md-12">
+                                                    <div class="card table-card">
+                                                        <div class="card-header">
+                                                            <h5>Performance rispetto allo Scostamento di Prezzo  [ Ricavi | Costi | Margine Operativo ]</h5>
+                                                            <div class="card-header-right">
+                                                                <ul class="list-unstyled card-option">
+                                                                    <li><i class="fa fa fa-wrench open-card-option"></i></li>
+                                                                    <li><i class="fa fa-window-maximize full-card"></i></li>
+                                                                    <li><i class="fa fa-minus minimize-card"></i></li>
+                                                                    <li><i class="fa fa-refresh reload-card"></i></li>
+                                                                    <li><i class="fa fa-trash close-card"></i></li>
+                                                                </ul>
+                                                            </div>
+                                                        </div>
+                                                        <div class="card-block">
+                                                            <div class="table-responsive">
+                                                                <table class="table table-hover m-b-0 without-header">
+                                                                    <tbody>
+                                                                        {% for art in scostamento_prezzo[:5] %}
+                                                                            <tr>
+                                                                                <td>
+                                                                                    <form action="/articolo" method="post">
+                                                                                        <input type="text" style="display:none" class="col-md-4 form-control" name="articolo" placeholder="Codice articolo" value="{{ art.getCodice() }}">  <br />
+                                                                                        <input class="btn waves-effect waves-light btn-primary btn-outline-primary" type="submit" value="{{ art.getCodice() }}">
+                                                                                    </form>
+                                                                                </td>
+                                                                                <td class="text-right">
+                                                                                    <h6 class="f-w-700">€ {{ art.getDeltaPrezzoCosto("RICAVI")|round(3) }}<i class="fas fa-level-down-alt text-c-red m-l-10"></i></h6>
+                                                                                </td>
+                                                                                <td class="text-right">
+                                                                                    <h6 class="f-w-700">€ {{ art.getDeltaPrezzoCosto("COSTI")|round(3) }}<i class="fas fa-level-down-alt text-c-red m-l-10"></i></h6>
+                                                                                </td>
+                                                                                <td class="text-right">
+                                                                                    <h6 class="f-w-700">€ {{ art.getDeltaPrezzoCosto("MOL")|round(3) }}<i class="fas fa-level-down-alt text-c-red m-l-10"></i></h6>
                                                                                 </td>
                                                                             </tr>
                                                                         {% endfor %}
@@ -338,71 +420,6 @@
                                                 </div>
                                                 <!--  sale analytics end -->
 
-                                                <!--  sale analytics start -->
-                                                <div class="col-xl-6 col-md-12">
-                                                    <div class="card table-card">
-                                                        <div class="card-header">
-                                                            <h5>Performance rispetto allo Scostamento di Prezzo</h5>
-                                                            <div class="card-header-right">
-                                                                <ul class="list-unstyled card-option">
-                                                                    <li><i class="fa fa fa-wrench open-card-option"></i></li>
-                                                                    <li><i class="fa fa-window-maximize full-card"></i></li>
-                                                                    <li><i class="fa fa-minus minimize-card"></i></li>
-                                                                    <li><i class="fa fa-refresh reload-card"></i></li>
-                                                                    <li><i class="fa fa-trash close-card"></i></li>
-                                                                </ul>
-                                                            </div>
-                                                        </div>
-                                                        <div class="card-block">
-                                                            <div class="table-responsive">
-                                                                <table class="table table-hover m-b-0 without-header">
-                                                                    <tbody>
-                                                                        {% for art in scostamento_prezzo[:5] %}
-                                                                            <tr>
-                                                                                <td>
-                                                                                    <form action="/articolo" method="post">
-                                                                                        <input type="text" style="display:none" class="col-md-4 form-control" name="articolo" placeholder="Codice articolo" value="{{ art.getCodice() }}">  <br />
-                                                                                        <input class="btn waves-effect waves-light btn-primary btn-outline-primary" type="submit" value="{{ art.getCodice() }}">
-                                                                                    </form>
-                                                                                </td>
-                                                                                <td class="text-right">
-                                                                                    <h6 class="f-w-700">€ {{ art.getDeltaPrezzoCosto()|round(3) }}<i class="fas fa-level-up-alt text-c-green m-l-10"></i></h6>
-                                                                                </td>
-                                                                            </tr>
-                                                                        {% endfor %}
-                                                                    </tbody>
-                                                                </table>
-    
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="col-xl-6 col-md-12">
-                                                    <div class="row">
-                                                        <!-- sale card start -->
-    
-                                                        <div class="col-md-6">
-                                                            <div class="card text-center order-visitor-card">
-                                                                <div class="card-block">
-                                                                    <h6 class="m-b-0">Worst</h6>
-                                                                    <h4 class="m-t-15 m-b-15"><i class="fa fa-arrow-down m-r-15 text-c-red"></i>7652</h4>
-                                                                    <p class="m-b-0">48% From Last 24 Hours</p>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                        <div class="col-md-6">
-                                                            <div class="card text-center order-visitor-card">
-                                                                <div class="card-block">
-                                                                    <h6 class="m-b-0">Best</h6>
-                                                                    <h4 class="m-t-15 m-b-15"><i class="fa fa-arrow-up m-r-15 text-c-green"></i>6325</h4>
-                                                                    <p class="m-b-0">36% From Last 6 Months</p>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                        <!-- sale card end -->
-                                                    </div>
-                                                </div>
-                                                <!--  sale analytics end -->
                                             </div>
                                         </div>
                                     </div>
