@@ -150,6 +150,28 @@ def get_prezzo_x_art_consuntivo(connection, list_articoli):
         prezzo_tot_articolo_consuntivo = row[1]
         art = amongUs(list_articoli, row[0])
         art.setPrezzo(prezzo_tot_articolo_consuntivo, "CONSUNTIVO")
+
+
+def get_prezzo_x_art_consuntivo_tassi(connection, list_articoli):
+
+    sql_select_Query = "SELECT vendite_consuntivo_x_art_tassi.codArt, sum(vendite_consuntivo_x_art_tassi.P_unit*vendite_consuntivo_x_art_tassi.qta)/sum(vendite_consuntivo_x_art_tassi.qta) as P_unit from vendite_consuntivo_x_art_tassi group by vendite_consuntivo_x_art_tassi.codArt"
+
+    records = query(connection, sql_select_Query)
+    for row in records:
+        prezzo_tot_articolo_consuntivo = row[1]
+        art = amongUs(list_articoli, row[0])
+        art.setPrezzo(prezzo_tot_articolo_consuntivo, "CONSUNTIVOTASSI")
+
+def get_prezzo_tot_consuntivo_tassi(connection):
+
+    prezzo_consuntivo = 0
+    sql_select_Query = "SELECT vendite_consuntivo_x_art_tassi.qta, vendite_consuntivo_x_art_tassi.P_unit from vendite_consuntivo_x_art_tassi"    
+
+    records = query(connection, sql_select_Query)
+    for row in records:
+        prezzo_consuntivo += Decimal(row[1])*row[0]      
+
+    return round(prezzo_consuntivo,3)
         
 
 def get_quantita_vendute_x_art_consuntivo(connection, list_articoli):

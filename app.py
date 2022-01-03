@@ -34,6 +34,8 @@ from main import set_quantita_vendute_x_art_eff
 from main import set_scostamento_volume
 from main import set_scostamento_mix
 from main import set_scostamento_prezzo_costo
+from main import get_prezzo_x_art_consuntivo_tassi
+from main import get_prezzo_tot_consuntivo_tassi
 
 import os
 
@@ -48,7 +50,7 @@ app.secret_key = "Very Strong Password"
 
 try:
     connection = mysql.connector.connect(host='localhost',
-        database='sistemi_controllo_gestione',
+        database='scg_tmp',
         user='root',
         password='')
 except Error as e:
@@ -80,6 +82,9 @@ set_scostamento_volume(list_articoli)
 set_scostamento_mix(list_articoli)
 set_scostamento_prezzo_costo(list_articoli)
 
+prezzo_tot_tassi = get_prezzo_tot_consuntivo_tassi(connection)
+
+
 # @app.route specify the exposed URL, in this case it is "http://my_site.com/"
 @app.route('/')
 def dashboard():
@@ -98,7 +103,7 @@ def dashboard():
     # Simply render the template in templates/login/login.html
     return render_template("index.html",
     mol_budget = prezzo_tot_budget - costo_produzione_tot_budget - costo_MP_tot_budget,
-    mol_consuntivo = prezzo_tot_consuntivo - costo_produzione_tot_consuntivo - costo_MP_tot_consuntivo,
+    mol_consuntivo = prezzo_tot_tassi - costo_produzione_tot_consuntivo - costo_MP_tot_consuntivo,
     scostamento_volume = delta_volume,
     scostamento_mix = delta_mix,
     scostamento_prezzo = delta_prezzo_costo)   # link al nome del template generato (si assume di essere già nella cartella template
@@ -106,6 +111,9 @@ def dashboard():
 # @app.route specify the exposed URL, in this case it is "http://my_site.com/"
 @app.route('/Centro_ricavo')
 def analisiCentroRicavo():
+
+
+
     costo_produzione_tot_budget = get_costo_produzione_tot_budget(list_articoli)
     costo_MP_tot_budget = get_costo_MP_tot_budget(list_articoli)
     prezzo_tot_budget = get_prezzo_tot_budget(connection)
@@ -138,7 +146,9 @@ def analisiCentroRicavo():
 
     p_consuntivo = prezzo_tot_consuntivo,
     c_produzione_consuntivo = costo_produzione_tot_consuntivo,
-    c_MP_consuntivo = costo_MP_tot_consuntivo)   # link al nome del template generato (si assume di essere già nella cartella template
+    c_MP_consuntivo = costo_MP_tot_consuntivo,
+    
+    p_tasso_consuntivo = prezzo_tot_tassi)   # link al nome del template generato (si assume di essere già nella cartella template
 
 # @app.route specify the exposed URL, in this case it is "http://my_site.com/"
 @app.route('/budget_produzione')

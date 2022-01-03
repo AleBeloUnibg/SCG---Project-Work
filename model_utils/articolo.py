@@ -36,6 +36,7 @@ class Articolo:
         self.deltaScostamentoVolume_m = 0
         self.deltaScostamentoMix_m = 0
         self.deltaScostamentoPrezzoCosto_m = 0
+        self.prezzoConsuntivoTassi = 0
     
     def getCodice(self):
         return self.codArt
@@ -47,6 +48,8 @@ class Articolo:
                 self.prezzoEffettivo = p
             elif budget_consuntivo == "CONSUNTIVO":
                 self.prezzoConsuntivo = p
+            elif budget_consuntivo == "CONSUNTIVOTASSI":
+                self.prezzoConsuntivoTassi = p
     
     def getPrezzo(self, budget_consuntivo):
             if budget_consuntivo == "BUDGET":
