@@ -91,9 +91,9 @@ def dashboard():
     costo_MP_tot_consuntivo = get_costo_MP_tot_consuntivo(list_articoli)
     prezzo_tot_consuntivo = get_prezzo_tot_consuntivo(connection)
 
-    delta_volume = sorted(list_articoli, key=lambda x: x.deltaScostamentoVolume_p, reverse=True)
-    delta_mix = sorted(list_articoli, key=lambda x: x.deltaScostamentoMix_p, reverse=True)
-    delta_prezzo_costo = sorted(list_articoli, key=lambda x: x.deltaScostamentoPrezzoCosto_p, reverse=True)
+    delta_volume = sorted(list_articoli, key=lambda x: x.getQuantitaVenduta("STANDARD")-x.getQuantitaVenduta("BUDGET"), reverse=True)
+    delta_mix = sorted(list_articoli, key=lambda x: x.getMix("EFFETTIVO")-x.getMix("STANDARD"), reverse=True)
+    delta_prezzo_costo = sorted(list_articoli, key=lambda x: x.getQuantitaVenduta("CONSUNTIVO"), reverse=True)
 
     # Simply render the template in templates/login/login.html
     return render_template("index.html",
