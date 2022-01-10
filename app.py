@@ -98,7 +98,7 @@ def dashboard():
 
     delta_volume = sorted(list_articoli, key=lambda x: x.getQuantitaVenduta("STANDARD")-x.getQuantitaVenduta("BUDGET"), reverse=True)
     delta_mix = sorted(list_articoli, key=lambda x: x.getMix("EFFETTIVO")-x.getMix("STANDARD"), reverse=True)
-    delta_prezzo_costo = sorted(list_articoli, key=lambda x: x.getQuantitaVenduta("CONSUNTIVO"), reverse=True)
+    delta_prezzo_costo = sorted(list_articoli, key=lambda x: x.getQuantitaVenduta("CONSUNTIVO")-x.getQuantitaVenduta("BUDGET"), reverse=True)
 
     # Simply render the template in templates/login/login.html
     return render_template("index.html",
